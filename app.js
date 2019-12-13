@@ -10,6 +10,7 @@ Promise.all([
 
 
     var geoJSON = datasets[0];
+    var countryMap = geoJSON.features.reduce((dic, elem) => {dic[elem.id] = elem.properties.name; return dic;}, {})
     var births = datasets[1];
     var dataComplete = datasets[2];
     var graph_data = {
@@ -42,25 +43,33 @@ Promise.all([
     updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters));
 
-    
+
     function listCountries(filters){
 
         var list = [...new Set(filters.countries)].sort()
-        
+
         options = d3.select("#selectCountries")
         .selectAll("option")
             .data(list)
             .enter()
             .append('option')
-            .text(d=>d)
+            .text(d=>countryMap[d])
             .attr('value',d=>d)
     }
-   
+
     $("#selectCountries")
     .select2()
     .on("select2:select", function(e){
-        
-        filters.countries = $("#selectCountries").select2('data').map(d=>d.text)
+
+        filters.countries = $("#selectCountries").select2('data').map(d=>d.id)
+        updateHeatMap(filterData(dataComplete,filters))
+        updateBoxplot(filterData(dataComplete,filters))
+
+    })
+
+    .on("select2:unselect", function(e){
+
+        filters.countries = $("#selectCountries").select2('data').map(d=>d.id)
         updateHeatMap(filterData(dataComplete,filters))
         updateBoxplot(filterData(dataComplete,filters))
 
@@ -109,9 +118,9 @@ Promise.all([
 
         filtered = data.filter(function (d) {
 
-            res = countries.includes(d.country) &
+            res = (countries.includes(d.country) || countries.length == 0) &
                 +d.birth <= maxDecade & +d.birth >= minDecade &
-                fields.includes(d.field) & professions.includes(d.profession)// & 
+                fields.includes(d.field) & professions.includes(d.profession)// &
             wonAward.includes(d.won_award)
             return res
         })
@@ -128,7 +137,6 @@ Promise.all([
             .map(function (row) {
                 return { country: row.key, n: row.value }
             })
-
 
         function getBirths(country_id, data) {
 
@@ -217,7 +225,7 @@ Promise.all([
 
             $('#selectCountries').val(d.id); // Select the option with a value of '1'
             $('#selectCountries').trigger('change')
-            $('#selectCountries').trigger('select2:select'); 
+            $('#selectCountries').trigger('select2:select');
 
         }
 
@@ -376,7 +384,7 @@ Promise.all([
             .call(d3.axisLeft(y));
 
 
-        
+
 
     }
 
@@ -668,7 +676,7 @@ Promise.all([
                     .style("opacity", 0)})
 
 
-            
+
 
         svg.selectAll('rect')
             .data(dataHeat)
