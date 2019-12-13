@@ -46,7 +46,10 @@
     }
 
 
+    #selectCountries {
 
+        width: 200px;
+    }
 
     #overtime {
         position: absolute;

@@ -24,8 +24,8 @@ Promise.all([
     $(".js-example-theme-multiple").select2({
         theme: "classic"
       });
+
     var filters = baseFilters(dataComplete)
-    console.log(filters)
     listCountries(filters)
     listMath(filters)
     buildMap(filterData(dataComplete, filters), geoJSON);
@@ -47,9 +47,15 @@ Promise.all([
             .append('option')
             .text(d=>d)
             .attr('value',d=>d)
-
-
     }
+   
+    $("#selectCountries")
+    .select2()
+    .on("select2:select", function(e){
+        
+        filters.countries = $("#selectCountries").select2('data').map(d=>d.text)
+        updateHeatMap(filterData(dataComplete,filters))
+    })
 
     function listMath(filters){
 
@@ -164,7 +170,6 @@ Promise.all([
             .enter()
             .append("path")
             .attr("d", path)
-            .on('click', d => console.log(d))
             .attr("stroke", "#ccc")
             .attr("fill", function (d) {
                 return colorScale(+d.properties.births)
@@ -188,12 +193,15 @@ Promise.all([
 
 
         function clickMap(d) {
-            console.log(filters)
             countryName = d.properties.name;
             number = d.properties.births
             filters.countries = d.id;
-            updateHeatMap(filterData(dataComplete, filters))
+            //updateHeatMap(filterData(dataComplete, filters))
             updateBoxplot(filterData(dataComplete, filters))
+
+            $('#selectCountries').val(d.id); // Select the option with a value of '1'
+            $('#selectCountries').trigger('change')
+            $('#selectCountries').trigger('select2:select'); 
 
         }
 
@@ -212,7 +220,6 @@ Promise.all([
                 return { decade: row.key, n: row.value }
             })
             .sort((a, b) => d3.ascending(a.decade, b.decade))
-        console.log(birthsTime)
         let widthOvertime = 500;
         let heightOvertime = 130;
 
@@ -250,7 +257,6 @@ Promise.all([
 
                 filterTime.min = xTimeScale.invert(coords[0])
                 filterTime.max = xTimeScale.invert(coords[1])
-                console.log(filterTime)
                 if (-filterTime.min + filterTime.max < 10) {
                     return;
                 }
@@ -260,7 +266,6 @@ Promise.all([
                         return +d.birth > filterTime.min & +d.birth <= filterTime.max
                     }
                 )
-                console.log(filteredData)
 
 
                 buildMap(filteredData, geoJSON)
@@ -388,7 +393,6 @@ Promise.all([
             })
             .entries(data)
 
-        console.log(stats)
 
         // Show the X scale
         var x = d3.scaleLinear()
@@ -547,7 +551,6 @@ Promise.all([
     }
 
     function updateHeatMap(data) {
-
         width = 500;
         height = 300;
 
@@ -576,7 +579,6 @@ Promise.all([
             .style("opacity", 0);
 
         var svg = d3.select("#heatMapViz");
-        console.log(dataHeat)
         // Build X scales and axis:
 
         var x = d3.scaleBand()
@@ -628,8 +630,10 @@ Promise.all([
             .on("mouseout", function (d) {
                 div.transition()
                     .duration(500)
-                    .style("opacity", 0);
-            });
+                    .style("opacity", 0)})
+
+
+            
 
         svg.selectAll('rect')
             .data(dataHeat)
