@@ -1,0 +1,1131 @@
+decade,country,name,n
+1500,AFG,Afghanistan,2
+1500,CAN,Canada,1
+1500,COL,Colombia,1
+1500,DEU,Germany,3
+1500,FRA,France,1
+1500,ITA,Italy,1
+1500,NLD,Netherlands,1
+1510,AUT,Austria,1
+1510,DEU,Germany,2
+1510,FRA,France,2
+1510,GBR,United Kingdom,1
+1510,NLD,Netherlands,1
+1520,ARG,Argentina,1
+1520,AUS,Australia,1
+1520,AUT,Austria,1
+1520,BLZ,Belize,1
+1520,DEU,Germany,1
+1520,ESP,Spain,1
+1520,ITA,Italy,2
+1520,NLD,Netherlands,1
+1520,SYR,Syria,1
+1530,AUT,Austria,1
+1530,CAN,Canada,2
+1530,DEU,Germany,4
+1530,GRC,Greece,1
+1530,ITA,Italy,4
+1540,AUT,Austria,1
+1540,BEL,Belgium,1
+1540,CHE,Switzerland,1
+1540,DEU,Germany,3
+1540,FRA,France,1
+1540,ITA,Italy,1
+1540,LBN,Lebanon,1
+1540,NLD,Netherlands,1
+1550,BEL,Belgium,1
+1550,BGD,Bangladesh,1
+1550,CHE,Switzerland,1
+1550,DEU,Germany,2
+1550,ECU,Ecuador,1
+1550,FRA,France,1
+1550,GBR,United Kingdom,1
+1550,ITA,Italy,3
+1560,ATG,Antigua & Barbuda,1
+1560,AUS,Australia,2
+1560,BEL,Belgium,2
+1560,BRB,Barbados,1
+1560,CAN,Canada,1
+1560,CHN,China,1
+1560,COL,Colombia,1
+1560,DEU,Germany,2
+1560,GBR,United Kingdom,2
+1560,HRV,Croatia,1
+1560,ITA,Italy,2
+1570,AUS,Australia,2
+1570,AUT,Austria,1
+1570,BRB,Barbados,1
+1570,CAN,Canada,1
+1570,CHE,Switzerland,1
+1570,DEU,Germany,1
+1570,IDN,Indonesia,1
+1570,ITA,Italy,3
+1580,ATG,Antigua & Barbuda,1
+1580,AUS,Australia,1
+1580,AUT,Austria,1
+1580,BEL,Belgium,1
+1580,BLZ,Belize,1
+1580,CAN,Canada,3
+1580,CHE,Switzerland,1
+1580,DEU,Germany,2
+1580,FRA,France,3
+1580,GBR,United Kingdom,1
+1580,ITA,Italy,2
+1580,NLD,Netherlands,1
+1580,USA,United States,1
+1590,AFG,Afghanistan,1
+1590,ATG,Antigua & Barbuda,1
+1590,AUS,Australia,1
+1590,BEL,Belgium,1
+1590,BLZ,Belize,1
+1590,BRB,Barbados,1
+1590,DEU,Germany,2
+1590,DZA,Algeria,1
+1590,ESP,Spain,1
+1590,FRA,France,2
+1590,ITA,Italy,2
+1590,NLD,Netherlands,1
+1590,POL,Poland,1
+1600,AUS,Australia,2
+1600,BEL,Belgium,1
+1600,BFA,Burkina Faso,1
+1600,CAN,Canada,2
+1600,CHN,China,1
+1600,COL,Colombia,1
+1600,CUB,Cuba,1
+1600,DEU,Germany,1
+1600,FRA,France,5
+1600,ITA,Italy,5
+1600,NLD,Netherlands,1
+1610,ATG,Antigua & Barbuda,1
+1610,AUS,Australia,5
+1610,BEL,Belgium,1
+1610,BLZ,Belize,1
+1610,CAN,Canada,2
+1610,DNK,Denmark,1
+1610,GBR,United Kingdom,1
+1610,HRV,Croatia,1
+1610,ITA,Italy,2
+1610,NLD,Netherlands,2
+1610,POL,Poland,1
+1620,AUS,Australia,1
+1620,BEL,Belgium,1
+1620,BLZ,Belize,1
+1620,BRB,Barbados,2
+1620,CAN,Canada,1
+1620,COL,Colombia,1
+1620,DEU,Germany,1
+1620,DNK,Denmark,1
+1620,FRA,France,1
+1620,GBR,United Kingdom,1
+1620,HTI,Haiti,1
+1620,IRL,Ireland,1
+1620,ITA,Italy,3
+1620,NLD,Netherlands,2
+1620,POL,Poland,1
+1630,BEL,Belgium,2
+1630,BLZ,Belize,1
+1630,DEU,Germany,1
+1630,GBR,United Kingdom,1
+1630,ITA,Italy,3
+1630,NLD,Netherlands,3
+1640,AFG,Afghanistan,2
+1640,BLZ,Belize,1
+1640,CAN,Canada,2
+1640,COL,Colombia,1
+1640,DEU,Germany,3
+1640,DNK,Denmark,1
+1640,FRA,France,4
+1640,GBR,United Kingdom,1
+1640,JPN,Japan,1
+1640,NLD,Netherlands,1
+1640,POL,Poland,1
+1650,ATG,Antigua & Barbuda,2
+1650,BEL,Belgium,2
+1650,BFA,Burkina Faso,1
+1650,BHS,Bahamas,1
+1650,CAN,Canada,1
+1650,ESP,Spain,1
+1650,FRA,France,3
+1660,AFG,Afghanistan,1
+1660,ATG,Antigua & Barbuda,1
+1660,BEL,Belgium,2
+1660,BHS,Bahamas,1
+1660,BRB,Barbados,1
+1660,CAN,Canada,2
+1660,FRA,France,1
+1660,GBR,United Kingdom,2
+1660,IDN,Indonesia,1
+1660,ITA,Italy,1
+1660,RUS,Russia,1
+1670,AUT,Austria,1
+1670,BEL,Belgium,1
+1670,BGD,Bangladesh,1
+1670,CAN,Canada,3
+1670,CZE,Czechia,1
+1670,FRA,France,1
+1670,GBR,United Kingdom,1
+1670,ITA,Italy,2
+1680,ATG,Antigua & Barbuda,1
+1680,AUS,Australia,2
+1680,BEL,Belgium,1
+1680,BLZ,Belize,1
+1680,BRB,Barbados,1
+1680,CAN,Canada,1
+1680,DEU,Germany,3
+1680,FRA,France,1
+1680,GBR,United Kingdom,3
+1680,ITA,Italy,2
+1680,SVN,Slovenia,1
+1690,ATG,Antigua & Barbuda,1
+1690,AUS,Australia,1
+1690,BEL,Belgium,1
+1690,BLZ,Belize,1
+1690,CAN,Canada,2
+1690,CZE,Czechia,1
+1690,FRA,France,1
+1690,GBR,United Kingdom,1
+1690,HTI,Haiti,1
+1690,ITA,Italy,1
+1690,POL,Poland,1
+1700,BEL,Belgium,2
+1700,BLZ,Belize,1
+1700,CAN,Canada,3
+1700,CHE,Switzerland,4
+1700,COL,Colombia,1
+1700,DEU,Germany,2
+1700,FRA,France,2
+1700,GBR,United Kingdom,1
+1700,ITA,Italy,3
+1700,NLD,Netherlands,1
+1700,SVK,Slovakia,1
+1700,SVN,Slovenia,1
+1710,AFG,Afghanistan,1
+1710,AUS,Australia,1
+1710,BEL,Belgium,1
+1710,BOL,Bolivia,1
+1710,CAN,Canada,2
+1710,CIV,Côte d’Ivoire,1
+1710,DEU,Germany,2
+1710,FRA,France,1
+1710,GBR,United Kingdom,4
+1710,HRV,Croatia,1
+1710,ITA,Italy,3
+1720,ATG,Antigua & Barbuda,1
+1720,AUT,Austria,1
+1720,BLZ,Belize,1
+1720,CAN,Canada,1
+1720,COL,Colombia,1
+1720,DEU,Germany,1
+1720,FRA,France,2
+1720,ITA,Italy,2
+1730,AFG,Afghanistan,1
+1730,AUS,Australia,1
+1730,BLR,Belarus,1
+1730,BLZ,Belize,1
+1730,BRB,Barbados,1
+1730,CAN,Canada,2
+1730,CHE,Switzerland,1
+1730,CHN,China,1
+1730,COL,Colombia,2
+1730,DEU,Germany,2
+1730,DZA,Algeria,1
+1730,FRA,France,5
+1730,GBR,United Kingdom,4
+1730,ITA,Italy,3
+1730,RUS,Russia,2
+1740,ALB,Albania,1
+1740,AUS,Australia,1
+1740,BEL,Belgium,1
+1740,BLZ,Belize,2
+1740,CAN,Canada,1
+1740,FIN,Finland,1
+1740,FRA,France,4
+1740,GBR,United Kingdom,2
+1740,JPN,Japan,2
+1740,NLD,Netherlands,1
+1740,NOR,Norway,1
+1740,PRT,Portugal,1
+1750,BEL,Belgium,3
+1750,BRB,Barbados,1
+1750,CAN,Canada,3
+1750,CHE,Switzerland,1
+1750,DEU,Germany,2
+1750,ESP,Spain,1
+1750,FRA,France,3
+1750,GBR,United Kingdom,6
+1750,HRV,Croatia,2
+1750,IDN,Indonesia,1
+1750,ITA,Italy,3
+1750,SVN,Slovenia,1
+1750,USA,United States,1
+1760,AUS,Australia,4
+1760,BEL,Belgium,2
+1760,BLZ,Belize,1
+1760,CAN,Canada,2
+1760,CHE,Switzerland,1
+1760,CHN,China,2
+1760,COL,Colombia,1
+1760,DEU,Germany,3
+1760,ESP,Spain,1
+1760,FRA,France,1
+1760,GBR,United Kingdom,2
+1760,HTI,Haiti,1
+1760,ITA,Italy,3
+1770,ARG,Argentina,1
+1770,ATG,Antigua & Barbuda,2
+1770,AUS,Australia,4
+1770,BLZ,Belize,2
+1770,BOL,Bolivia,1
+1770,CAN,Canada,9
+1770,CHE,Switzerland,1
+1770,DEU,Germany,5
+1770,ERI,Eritrea,1
+1770,GBR,United Kingdom,1
+1770,POL,Poland,1
+1770,USA,United States,1
+1780,AUS,Australia,5
+1780,BLZ,Belize,1
+1780,CAN,Canada,1
+1780,CZE,Czechia,1
+1780,DEU,Germany,3
+1780,DZA,Algeria,1
+1780,FRA,France,4
+1780,GBR,United Kingdom,3
+1780,IDN,Indonesia,1
+1780,ITA,Italy,3
+1780,USA,United States,1
+1790,AFG,Afghanistan,1
+1790,ATG,Antigua & Barbuda,1
+1790,AUS,Australia,3
+1790,AUT,Austria,2
+1790,BEL,Belgium,2
+1790,BLZ,Belize,2
+1790,CAN,Canada,8
+1790,CHE,Switzerland,2
+1790,COL,Colombia,2
+1790,DEU,Germany,6
+1790,DNK,Denmark,1
+1790,FRA,France,7
+1790,GBR,United Kingdom,4
+1790,JAM,Jamaica,1
+1790,UKR,Ukraine,1
+1790,USA,United States,1
+1800,AFG,Afghanistan,1
+1800,ARG,Argentina,2
+1800,AUS,Australia,4
+1800,AUT,Austria,3
+1800,BEL,Belgium,2
+1800,BLR,Belarus,1
+1800,BLZ,Belize,1
+1800,BRA,Brazil,1
+1800,CAN,Canada,4
+1800,CHE,Switzerland,1
+1800,CRI,Costa Rica,1
+1800,DEU,Germany,12
+1800,FRA,France,3
+1800,GBR,United Kingdom,3
+1800,HTI,Haiti,1
+1800,IRL,Ireland,1
+1800,ITA,Italy,2
+1800,LUX,Luxembourg,1
+1800,NOR,Norway,1
+1800,POL,Poland,3
+1800,ROU,Romania,1
+1800,USA,United States,1
+1800,ZAF,South Africa,1
+1810,AGO,Angola,1
+1810,ARG,Argentina,2
+1810,AUS,Australia,1
+1810,AUT,Austria,2
+1810,BEL,Belgium,1
+1810,BGR,Bulgaria,1
+1810,BLZ,Belize,2
+1810,BOL,Bolivia,1
+1810,CAN,Canada,4
+1810,COL,Colombia,3
+1810,DEU,Germany,2
+1810,DZA,Algeria,1
+1810,FRA,France,2
+1810,GBR,United Kingdom,5
+1810,IDN,Indonesia,1
+1810,IND,India,1
+1810,IRL,Ireland,1
+1810,ITA,Italy,3
+1810,NLD,Netherlands,1
+1810,NOR,Norway,1
+1810,POL,Poland,2
+1810,PRT,Portugal,1
+1810,ROU,Romania,1
+1810,USA,United States,1
+1820,AFG,Afghanistan,2
+1820,AGO,Angola,1
+1820,ARG,Argentina,1
+1820,AUS,Australia,8
+1820,BEL,Belgium,2
+1820,BLZ,Belize,1
+1820,CAN,Canada,6
+1820,CHE,Switzerland,1
+1820,CMR,Cameroon,1
+1820,COD,Congo - Kinshasa,1
+1820,COL,Colombia,4
+1820,DEU,Germany,12
+1820,DNK,Denmark,1
+1820,EGY,Egypt,1
+1820,FIN,Finland,1
+1820,FRA,France,8
+1820,GBR,United Kingdom,5
+1820,ITA,Italy,3
+1820,POL,Poland,1
+1820,RUS,Russia,1
+1820,UKR,Ukraine,1
+1830,ARG,Argentina,1
+1830,ATG,Antigua & Barbuda,1
+1830,AUS,Australia,13
+1830,AUT,Austria,3
+1830,AZE,Azerbaijan,1
+1830,BEL,Belgium,5
+1830,BGR,Bulgaria,1
+1830,BLZ,Belize,2
+1830,BOL,Bolivia,1
+1830,BRA,Brazil,1
+1830,BRB,Barbados,1
+1830,CAN,Canada,5
+1830,CHE,Switzerland,1
+1830,COL,Colombia,6
+1830,CZE,Czechia,2
+1830,DEU,Germany,6
+1830,DNK,Denmark,4
+1830,FRA,France,3
+1830,GBR,United Kingdom,9
+1830,HRV,Croatia,1
+1830,ITA,Italy,1
+1830,JAM,Jamaica,1
+1830,NOR,Norway,1
+1830,POL,Poland,1
+1830,ROU,Romania,1
+1830,RUS,Russia,2
+1830,USA,United States,5
+1840,AFG,Afghanistan,1
+1840,ARG,Argentina,2
+1840,ATG,Antigua & Barbuda,1
+1840,AUS,Australia,9
+1840,AUT,Austria,4
+1840,BEL,Belgium,3
+1840,BGD,Bangladesh,1
+1840,BLR,Belarus,1
+1840,BLZ,Belize,1
+1840,BRA,Brazil,1
+1840,BRB,Barbados,2
+1840,CAN,Canada,1
+1840,COL,Colombia,4
+1840,CUB,Cuba,1
+1840,CZE,Czechia,2
+1840,DEU,Germany,15
+1840,DNK,Denmark,1
+1840,FRA,France,5
+1840,GBR,United Kingdom,5
+1840,ITA,Italy,4
+1840,JAM,Jamaica,1
+1840,LTU,Lithuania,1
+1840,LUX,Luxembourg,2
+1840,NLD,Netherlands,1
+1840,NOR,Norway,2
+1840,POL,Poland,1
+1840,ROU,Romania,1
+1840,RUS,Russia,5
+1840,SWE,Sweden,1
+1850,AFG,Afghanistan,4
+1850,ARG,Argentina,3
+1850,AUS,Australia,6
+1850,AUT,Austria,1
+1850,BEL,Belgium,4
+1850,BGR,Bulgaria,1
+1850,BLZ,Belize,5
+1850,BOL,Bolivia,4
+1850,BRA,Brazil,1
+1850,CAN,Canada,8
+1850,CHE,Switzerland,2
+1850,CHN,China,1
+1850,COL,Colombia,4
+1850,CUB,Cuba,1
+1850,CZE,Czechia,2
+1850,DEU,Germany,16
+1850,DNK,Denmark,3
+1850,DOM,Dominican Republic,1
+1850,ESP,Spain,1
+1850,EST,Estonia,1
+1850,FRA,France,4
+1850,GBR,United Kingdom,6
+1850,IDN,Indonesia,1
+1850,IND,India,2
+1850,IRL,Ireland,1
+1850,ITA,Italy,7
+1850,JAM,Jamaica,1
+1850,JPN,Japan,1
+1850,LTU,Lithuania,3
+1850,MLT,Malta,1
+1850,NLD,Netherlands,1
+1850,POL,Poland,1
+1850,ROU,Romania,2
+1850,RUS,Russia,9
+1850,UKR,Ukraine,1
+1850,USA,United States,1
+1860,AFG,Afghanistan,3
+1860,ARG,Argentina,1
+1860,ARM,Armenia,1
+1860,AUS,Australia,21
+1860,AUT,Austria,4
+1860,BEL,Belgium,5
+1860,BGR,Bulgaria,1
+1860,BLZ,Belize,2
+1860,BOL,Bolivia,2
+1860,BRB,Barbados,1
+1860,CAN,Canada,9
+1860,CHE,Switzerland,1
+1860,COL,Colombia,5
+1860,CUB,Cuba,1
+1860,CZE,Czechia,2
+1860,DEU,Germany,8
+1860,DNK,Denmark,1
+1860,FRA,France,6
+1860,GBR,United Kingdom,15
+1860,HRV,Croatia,1
+1860,HUN,Hungary,2
+1860,IRL,Ireland,1
+1860,ITA,Italy,5
+1860,LBR,Liberia,1
+1860,LTU,Lithuania,1
+1860,MYS,Malaysia,1
+1860,NLD,Netherlands,1
+1860,POL,Poland,1
+1860,RUS,Russia,7
+1860,SRB,Serbia,1
+1860,SVK,Slovakia,1
+1860,SWE,Sweden,1
+1860,TUR,Turkey,1
+1860,UKR,Ukraine,1
+1860,USA,United States,9
+1870,AFG,Afghanistan,1
+1870,AGO,Angola,1
+1870,ARG,Argentina,1
+1870,AUS,Australia,14
+1870,AUT,Austria,2
+1870,BEL,Belgium,6
+1870,BGD,Bangladesh,1
+1870,BLR,Belarus,2
+1870,BLZ,Belize,2
+1870,BOL,Bolivia,1
+1870,BRB,Barbados,1
+1870,CAN,Canada,10
+1870,CHE,Switzerland,3
+1870,COL,Colombia,3
+1870,CUB,Cuba,1
+1870,CZE,Czechia,1
+1870,DEU,Germany,10
+1870,DNK,Denmark,2
+1870,EST,Estonia,2
+1870,FIN,Finland,3
+1870,FRA,France,10
+1870,GBR,United Kingdom,18
+1870,GRC,Greece,1
+1870,HRV,Croatia,3
+1870,HTI,Haiti,1
+1870,HUN,Hungary,2
+1870,IDN,Indonesia,2
+1870,IND,India,4
+1870,ITA,Italy,11
+1870,JAM,Jamaica,3
+1870,KAZ,Kazakhstan,1
+1870,NLD,Netherlands,2
+1870,NOR,Norway,2
+1870,PNG,Papua New Guinea,1
+1870,POL,Poland,1
+1870,ROU,Romania,1
+1870,RUS,Russia,4
+1870,SRB,Serbia,1
+1870,SVN,Slovenia,1
+1870,SWE,Sweden,1
+1870,UKR,Ukraine,1
+1870,USA,United States,8
+1880,ABW,Aruba,1
+1880,AFG,Afghanistan,1
+1880,ARG,Argentina,3
+1880,ATG,Antigua & Barbuda,1
+1880,AUS,Australia,10
+1880,AUT,Austria,7
+1880,AZE,Azerbaijan,1
+1880,BEL,Belgium,4
+1880,BHS,Bahamas,1
+1880,BLR,Belarus,5
+1880,BLZ,Belize,6
+1880,BOL,Bolivia,3
+1880,BRA,Brazil,3
+1880,BRB,Barbados,1
+1880,CAN,Canada,8
+1880,CHE,Switzerland,1
+1880,COL,Colombia,9
+1880,CZE,Czechia,5
+1880,DEU,Germany,14
+1880,DNK,Denmark,2
+1880,ESP,Spain,1
+1880,FRA,France,7
+1880,GBR,United Kingdom,12
+1880,GRC,Greece,1
+1880,HRV,Croatia,1
+1880,HUN,Hungary,4
+1880,IND,India,2
+1880,ITA,Italy,8
+1880,JAM,Jamaica,6
+1880,JPN,Japan,2
+1880,MNG,Mongolia,1
+1880,NLD,Netherlands,4
+1880,PNG,Papua New Guinea,1
+1880,POL,Poland,6
+1880,ROU,Romania,2
+1880,RUS,Russia,10
+1880,SWE,Sweden,1
+1880,UKR,Ukraine,12
+1880,USA,United States,10
+1890,AFG,Afghanistan,1
+1890,ARG,Argentina,4
+1890,AUS,Australia,13
+1890,AUT,Austria,6
+1890,AZE,Azerbaijan,1
+1890,BGD,Bangladesh,1
+1890,BIH,Bosnia & Herzegovina,1
+1890,BLR,Belarus,4
+1890,BLZ,Belize,7
+1890,BOL,Bolivia,2
+1890,BRA,Brazil,2
+1890,CAN,Canada,7
+1890,CHE,Switzerland,3
+1890,CMR,Cameroon,1
+1890,COL,Colombia,11
+1890,CZE,Czechia,3
+1890,DEU,Germany,19
+1890,DNK,Denmark,1
+1890,EST,Estonia,2
+1890,FIN,Finland,1
+1890,FRA,France,4
+1890,GBR,United Kingdom,7
+1890,GEO,Georgia,1
+1890,HUN,Hungary,5
+1890,IDN,Indonesia,2
+1890,IND,India,3
+1890,ITA,Italy,7
+1890,JAM,Jamaica,5
+1890,KAZ,Kazakhstan,1
+1890,LBR,Liberia,1
+1890,NLD,Netherlands,5
+1890,NOR,Norway,2
+1890,NZL,New Zealand,1
+1890,POL,Poland,3
+1890,ROU,Romania,1
+1890,RUS,Russia,10
+1890,SVN,Slovenia,1
+1890,SWE,Sweden,2
+1890,TUR,Turkey,1
+1890,UKR,Ukraine,7
+1890,USA,United States,7
+1900,AFG,Afghanistan,1
+1900,AGO,Angola,1
+1900,ARG,Argentina,4
+1900,ARM,Armenia,1
+1900,AUS,Australia,28
+1900,AUT,Austria,14
+1900,AZE,Azerbaijan,1
+1900,BEL,Belgium,7
+1900,BFA,Burkina Faso,1
+1900,BGR,Bulgaria,2
+1900,BHS,Bahamas,1
+1900,BIH,Bosnia & Herzegovina,4
+1900,BLR,Belarus,8
+1900,BLZ,Belize,11
+1900,BOL,Bolivia,3
+1900,BRA,Brazil,3
+1900,BRB,Barbados,1
+1900,CAN,Canada,13
+1900,CHE,Switzerland,4
+1900,COL,Colombia,20
+1900,CUB,Cuba,2
+1900,CZE,Czechia,2
+1900,DEU,Germany,30
+1900,DNK,Denmark,3
+1900,DZA,Algeria,2
+1900,ETH,Ethiopia,1
+1900,FIN,Finland,2
+1900,FRA,France,6
+1900,GBR,United Kingdom,19
+1900,GEO,Georgia,1
+1900,GRC,Greece,1
+1900,HKG,Hong Kong SAR China,1
+1900,HRV,Croatia,1
+1900,HTI,Haiti,1
+1900,HUN,Hungary,9
+1900,IDN,Indonesia,1
+1900,IND,India,7
+1900,IRN,Iran,2
+1900,ISR,Israel,1
+1900,ITA,Italy,2
+1900,JAM,Jamaica,8
+1900,JPN,Japan,5
+1900,KAZ,Kazakhstan,1
+1900,LTU,Lithuania,2
+1900,NLD,Netherlands,4
+1900,NOR,Norway,2
+1900,NZL,New Zealand,2
+1900,PER,Peru,1
+1900,POL,Poland,3
+1900,ROU,Romania,5
+1900,RUS,Russia,25
+1900,SRB,Serbia,1
+1900,SUR,Suriname,1
+1900,SWE,Sweden,1
+1900,SYR,Syria,1
+1900,TUR,Turkey,1
+1900,UGA,Uganda,1
+1900,UKR,Ukraine,12
+1900,USA,United States,20
+1900,UZB,Uzbekistan,1
+1910,ABW,Aruba,1
+1910,AFG,Afghanistan,4
+1910,AGO,Angola,1
+1910,ARG,Argentina,8
+1910,ARM,Armenia,1
+1910,AUS,Australia,31
+1910,AUT,Austria,11
+1910,AZE,Azerbaijan,1
+1910,BEL,Belgium,7
+1910,BGD,Bangladesh,3
+1910,BGR,Bulgaria,2
+1910,BLR,Belarus,1
+1910,BLZ,Belize,22
+1910,BOL,Bolivia,7
+1910,BRA,Brazil,6
+1910,BRB,Barbados,5
+1910,CAN,Canada,18
+1910,CHE,Switzerland,6
+1910,CHN,China,8
+1910,CMR,Cameroon,1
+1910,COD,Congo - Kinshasa,1
+1910,COL,Colombia,13
+1910,CRI,Costa Rica,1
+1910,CUB,Cuba,1
+1910,DEU,Germany,21
+1910,DNK,Denmark,2
+1910,DZA,Algeria,1
+1910,EGY,Egypt,1
+1910,ESP,Spain,1
+1910,FIN,Finland,2
+1910,FRA,France,5
+1910,GBR,United Kingdom,25
+1910,GEO,Georgia,1
+1910,GRC,Greece,1
+1910,HUN,Hungary,15
+1910,IDN,Indonesia,3
+1910,IND,India,5
+1910,ISR,Israel,1
+1910,ITA,Italy,6
+1910,JAM,Jamaica,4
+1910,JPN,Japan,7
+1910,KAZ,Kazakhstan,1
+1910,NIC,Nicaragua,3
+1910,NLD,Netherlands,6
+1910,NOR,Norway,2
+1910,NZL,New Zealand,2
+1910,PAK,Pakistan,1
+1910,POL,Poland,2
+1910,ROU,Romania,2
+1910,RUS,Russia,16
+1910,SVK,Slovakia,1
+1910,SWE,Sweden,3
+1910,TUR,Turkey,3
+1910,UKR,Ukraine,9
+1910,USA,United States,30
+1910,ZAF,South Africa,1
+1920,ABW,Aruba,1
+1920,AFG,Afghanistan,3
+1920,AGO,Angola,2
+1920,ARG,Argentina,12
+1920,ARM,Armenia,1
+1920,ATG,Antigua & Barbuda,1
+1920,AUS,Australia,57
+1920,AUT,Austria,15
+1920,AZE,Azerbaijan,3
+1920,BEL,Belgium,12
+1920,BFA,Burkina Faso,1
+1920,BGD,Bangladesh,3
+1920,BGR,Bulgaria,1
+1920,BIH,Bosnia & Herzegovina,1
+1920,BLR,Belarus,1
+1920,BLZ,Belize,19
+1920,BOL,Bolivia,10
+1920,BRA,Brazil,9
+1920,BRB,Barbados,2
+1920,CAN,Canada,32
+1920,CHE,Switzerland,4
+1920,CHN,China,4
+1920,CIV,Côte d’Ivoire,2
+1920,COD,Congo - Kinshasa,2
+1920,COL,Colombia,18
+1920,CZE,Czechia,4
+1920,DEU,Germany,32
+1920,DNK,Denmark,1
+1920,ECU,Ecuador,1
+1920,EGY,Egypt,1
+1920,ESP,Spain,2
+1920,ETH,Ethiopia,1
+1920,FIN,Finland,1
+1920,FRA,France,11
+1920,GBR,United Kingdom,22
+1920,GEO,Georgia,1
+1920,GRC,Greece,1
+1920,HRV,Croatia,1
+1920,HTI,Haiti,3
+1920,HUN,Hungary,14
+1920,IDN,Indonesia,2
+1920,IND,India,8
+1920,IRL,Ireland,1
+1920,IRN,Iran,1
+1920,ISL,Iceland,1
+1920,ISR,Israel,1
+1920,ITA,Italy,5
+1920,JAM,Jamaica,3
+1920,JPN,Japan,7
+1920,KAZ,Kazakhstan,1
+1920,LTU,Lithuania,1
+1920,MDA,Moldova,2
+1920,NIC,Nicaragua,2
+1920,NLD,Netherlands,8
+1920,NOR,Norway,1
+1920,NZL,New Zealand,1
+1920,PAK,Pakistan,1
+1920,POL,Poland,2
+1920,ROU,Romania,1
+1920,RUS,Russia,34
+1920,SVK,Slovakia,1
+1920,SVN,Slovenia,1
+1920,SWE,Sweden,4
+1920,TTO,Trinidad & Tobago,1
+1920,TUR,Turkey,1
+1920,UKR,Ukraine,14
+1920,USA,United States,31
+1930,ABW,Aruba,1
+1930,AFG,Afghanistan,4
+1930,AGO,Angola,3
+1930,ALB,Albania,1
+1930,ARG,Argentina,13
+1930,ARM,Armenia,2
+1930,AUS,Australia,52
+1930,AUT,Austria,6
+1930,AZE,Azerbaijan,1
+1930,BEL,Belgium,10
+1930,BGD,Bangladesh,4
+1930,BGR,Bulgaria,5
+1930,BIH,Bosnia & Herzegovina,2
+1930,BLR,Belarus,3
+1930,BLZ,Belize,23
+1930,BOL,Bolivia,13
+1930,BRA,Brazil,7
+1930,BRB,Barbados,5
+1930,CAN,Canada,27
+1930,CHE,Switzerland,4
+1930,CHN,China,7
+1930,CMR,Cameroon,1
+1930,COL,Colombia,14
+1930,CUB,Cuba,2
+1930,CZE,Czechia,5
+1930,DEU,Germany,25
+1930,DNK,Denmark,3
+1930,EGY,Egypt,1
+1930,ERI,Eritrea,1
+1930,ESP,Spain,1
+1930,EST,Estonia,1
+1930,FIN,Finland,1
+1930,FRA,France,9
+1930,GBR,United Kingdom,24
+1930,GHA,Ghana,1
+1930,GLP,Guadeloupe,1
+1930,GMB,Gambia,3
+1930,GRC,Greece,1
+1930,HRV,Croatia,1
+1930,HTI,Haiti,1
+1930,HUN,Hungary,8
+1930,IDN,Indonesia,3
+1930,IND,India,12
+1930,IRN,Iran,1
+1930,ISR,Israel,4
+1930,ITA,Italy,2
+1930,JAM,Jamaica,1
+1930,JPN,Japan,6
+1930,KAZ,Kazakhstan,2
+1930,KGZ,Kyrgyzstan,1
+1930,LTU,Lithuania,3
+1930,NLD,Netherlands,5
+1930,NOR,Norway,7
+1930,NZL,New Zealand,1
+1930,PNG,Papua New Guinea,2
+1930,POL,Poland,4
+1930,ROU,Romania,4
+1930,RUS,Russia,49
+1930,SGP,Singapore,1
+1930,SUR,Suriname,1
+1930,SWE,Sweden,2
+1930,SYR,Syria,1
+1930,TJK,Tajikistan,1
+1930,TTO,Trinidad & Tobago,1
+1930,UKR,Ukraine,7
+1930,USA,United States,46
+1930,VNM,Vietnam,1
+1940,AFG,Afghanistan,7
+1940,AGO,Angola,6
+1940,ALB,Albania,1
+1940,ARG,Argentina,25
+1940,ARM,Armenia,1
+1940,ATG,Antigua & Barbuda,6
+1940,AUS,Australia,64
+1940,AUT,Austria,12
+1940,AZE,Azerbaijan,1
+1940,BEL,Belgium,5
+1940,BFA,Burkina Faso,1
+1940,BGD,Bangladesh,5
+1940,BGR,Bulgaria,2
+1940,BLR,Belarus,1
+1940,BLZ,Belize,22
+1940,BOL,Bolivia,12
+1940,BRA,Brazil,17
+1940,BRB,Barbados,3
+1940,CAN,Canada,31
+1940,CHE,Switzerland,2
+1940,CHL,Chile,1
+1940,CHN,China,10
+1940,COL,Colombia,17
+1940,CRI,Costa Rica,2
+1940,CUB,Cuba,2
+1940,CYM,Cayman Islands,1
+1940,CZE,Czechia,9
+1940,DEU,Germany,24
+1940,DNK,Denmark,6
+1940,DOM,Dominican Republic,1
+1940,ETH,Ethiopia,2
+1940,FIN,Finland,2
+1940,FRA,France,12
+1940,GBR,United Kingdom,22
+1940,GEO,Georgia,1
+1940,GRC,Greece,5
+1940,GRD,Grenada,1
+1940,HKG,Hong Kong SAR China,1
+1940,HTI,Haiti,4
+1940,HUN,Hungary,22
+1940,IDN,Indonesia,2
+1940,IND,India,12
+1940,IRL,Ireland,1
+1940,IRN,Iran,4
+1940,ISR,Israel,4
+1940,ITA,Italy,4
+1940,JAM,Jamaica,2
+1940,JPN,Japan,3
+1940,KAZ,Kazakhstan,1
+1940,LKA,Sri Lanka,1
+1940,LVA,Latvia,1
+1940,MAR,Morocco,1
+1940,MEX,Mexico,1
+1940,NIC,Nicaragua,2
+1940,NLD,Netherlands,13
+1940,NOR,Norway,5
+1940,NZL,New Zealand,1
+1940,PAK,Pakistan,2
+1940,PHL,Philippines,1
+1940,PRT,Portugal,1
+1940,ROU,Romania,2
+1940,RUS,Russia,42
+1940,RWA,Rwanda,1
+1940,SRB,Serbia,1
+1940,SVK,Slovakia,1
+1940,SVN,Slovenia,3
+1940,SWE,Sweden,2
+1940,TGO,Togo,1
+1940,TTO,Trinidad & Tobago,1
+1940,TUR,Turkey,4
+1940,TZA,Tanzania,2
+1940,UKR,Ukraine,5
+1940,USA,United States,41
+1940,UZB,Uzbekistan,2
+1940,VNM,Vietnam,1
+1940,ZAF,South Africa,2
+1950,ABW,Aruba,2
+1950,AFG,Afghanistan,5
+1950,AGO,Angola,4
+1950,ARG,Argentina,15
+1950,ATG,Antigua & Barbuda,3
+1950,AUS,Australia,35
+1950,AUT,Austria,5
+1950,AZE,Azerbaijan,2
+1950,BEL,Belgium,6
+1950,BEN,Benin,1
+1950,BFA,Burkina Faso,1
+1950,BGR,Bulgaria,3
+1950,BIH,Bosnia & Herzegovina,2
+1950,BLR,Belarus,1
+1950,BLZ,Belize,12
+1950,BOL,Bolivia,13
+1950,BRA,Brazil,12
+1950,BRB,Barbados,3
+1950,CAN,Canada,24
+1950,CHE,Switzerland,1
+1950,CHL,Chile,1
+1950,CHN,China,7
+1950,COL,Colombia,5
+1950,CZE,Czechia,2
+1950,DEU,Germany,16
+1950,DZA,Algeria,2
+1950,EGY,Egypt,1
+1950,ESP,Spain,1
+1950,FIN,Finland,2
+1950,FRA,France,8
+1950,GBR,United Kingdom,13
+1950,GEO,Georgia,1
+1950,GHA,Ghana,1
+1950,GRC,Greece,3
+1950,HKG,Hong Kong SAR China,1
+1950,HTI,Haiti,1
+1950,HUN,Hungary,16
+1950,IDN,Indonesia,2
+1950,IND,India,7
+1950,IRN,Iran,2
+1950,IRQ,Iraq,2
+1950,ISR,Israel,11
+1950,ITA,Italy,4
+1950,JAM,Jamaica,4
+1950,JPN,Japan,3
+1950,KAZ,Kazakhstan,1
+1950,LBR,Liberia,2
+1950,LTU,Lithuania,1
+1950,MEX,Mexico,1
+1950,MMR,Myanmar (Burma),1
+1950,NIC,Nicaragua,1
+1950,NLD,Netherlands,6
+1950,NOR,Norway,1
+1950,NZL,New Zealand,2
+1950,PAK,Pakistan,4
+1950,PRT,Portugal,2
+1950,ROU,Romania,4
+1950,RUS,Russia,35
+1950,SUR,Suriname,1
+1950,SVN,Slovenia,3
+1950,SWE,Sweden,1
+1950,TTO,Trinidad & Tobago,2
+1950,UKR,Ukraine,3
+1950,USA,United States,24
+1950,ZAF,South Africa,1
+1960,ABW,Aruba,1
+1960,AFG,Afghanistan,1
+1960,AGO,Angola,4
+1960,ARG,Argentina,7
+1960,AUS,Australia,12
+1960,AUT,Austria,2
+1960,AZE,Azerbaijan,1
+1960,BEL,Belgium,2
+1960,BFA,Burkina Faso,1
+1960,BGD,Bangladesh,3
+1960,BGR,Bulgaria,1
+1960,BHS,Bahamas,1
+1960,BIH,Bosnia & Herzegovina,1
+1960,BLR,Belarus,1
+1960,BLZ,Belize,6
+1960,BOL,Bolivia,10
+1960,BRA,Brazil,7
+1960,BRB,Barbados,1
+1960,CAN,Canada,6
+1960,CHE,Switzerland,1
+1960,CHN,China,7
+1960,CMR,Cameroon,2
+1960,COL,Colombia,7
+1960,CZE,Czechia,1
+1960,DEU,Germany,14
+1960,FIN,Finland,2
+1960,FRA,France,6
+1960,GBR,United Kingdom,9
+1960,GEO,Georgia,1
+1960,GRC,Greece,1
+1960,HRV,Croatia,1
+1960,HUN,Hungary,5
+1960,IDN,Indonesia,1
+1960,IND,India,6
+1960,IRN,Iran,3
+1960,ISR,Israel,2
+1960,ITA,Italy,3
+1960,JPN,Japan,2
+1960,KOR,South Korea,1
+1960,LBR,Liberia,1
+1960,NIC,Nicaragua,1
+1960,NLD,Netherlands,4
+1960,NOR,Norway,1
+1960,ROU,Romania,1
+1960,RUS,Russia,19
+1960,SUR,Suriname,1
+1960,UKR,Ukraine,1
+1960,USA,United States,12
+1960,ZAF,South Africa,1
+1970,AFG,Afghanistan,1
+1970,AGO,Angola,1
+1970,ARG,Argentina,3
+1970,AUS,Australia,12
+1970,AUT,Austria,3
+1970,BEL,Belgium,3
+1970,BGD,Bangladesh,1
+1970,BLR,Belarus,1
+1970,BLZ,Belize,1
+1970,BOL,Bolivia,6
+1970,BRA,Brazil,3
+1970,CAN,Canada,7
+1970,CHE,Switzerland,1
+1970,COL,Colombia,1
+1970,CRI,Costa Rica,1
+1970,DNK,Denmark,1
+1970,FRA,France,4
+1970,GBR,United Kingdom,1
+1970,GMB,Gambia,1
+1970,GRC,Greece,1
+1970,HUN,Hungary,1
+1970,IDN,Indonesia,1
+1970,IND,India,4
+1970,IRL,Ireland,1
+1970,IRN,Iran,2
+1970,ISR,Israel,3
+1970,ITA,Italy,4
+1970,KAZ,Kazakhstan,1
+1970,LTU,Lithuania,3
+1970,MEX,Mexico,1
+1970,NLD,Netherlands,5
+1970,PNG,Papua New Guinea,2
+1970,PRT,Portugal,1
+1970,RUS,Russia,5
+1970,SWE,Sweden,1
+1970,USA,United States,6
+1980,AFG,Afghanistan,1
+1980,ARG,Argentina,3
+1980,AUS,Australia,4
+1980,AUT,Austria,1
+1980,BEL,Belgium,1
+1980,BOL,Bolivia,2
+1980,BRA,Brazil,1
+1980,CAN,Canada,4
+1980,CHE,Switzerland,2
+1980,COL,Colombia,2
+1980,DEU,Germany,2
+1980,GBR,United Kingdom,1
+1980,HRV,Croatia,1
+1980,IND,India,1
+1980,IRN,Iran,1
+1980,ISR,Israel,1
+1980,POL,Poland,2
+1980,RUS,Russia,3
+1980,UKR,Ukraine,1
+1980,USA,United States,3
+1990,ARG,Argentina,1
+1990,AUS,Australia,1
+1990,BEL,Belgium,1
+1990,CAN,Canada,2
+1990,HKG,Hong Kong SAR China,1
