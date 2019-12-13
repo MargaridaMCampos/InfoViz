@@ -25,15 +25,22 @@ Promise.all([
         theme: "classic"
       });
 
+      $(document).ready(function() {
+        listMath(graph_data.nodes)
+
+        $('.js-example-basic-single').select2({theme: "classic"})
+        buildGraph(graph_data);
+
+    });
+ 
+
     var filters = baseFilters(dataComplete)
     listCountries(filters)
-    listMath(filters)
     buildMap(filterData(dataComplete, filters), geoJSON);
     buildOverTime(filterData(dataComplete, filters), geoJSON);
     buildHeatMap(filterData(dataComplete, filters));
     updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters));
-    buildGraph(graph_data);
 
     
     function listCountries(filters){
@@ -55,19 +62,29 @@ Promise.all([
         
         filters.countries = $("#selectCountries").select2('data').map(d=>d.text)
         updateHeatMap(filterData(dataComplete,filters))
+        updateBoxplot(filterData(dataComplete,filters))
+
     })
 
-    function listMath(filters){
-
-        var list = [...new Set(filters.names)].sort()
+    $("#selectMath")
+    .select2()
+    .on("select2:select", function(e){
         
+        buildGraph(graph_data)
+
+    })
+
+    function listMath(nodes){
+
+
         options = d3.select("#selectMath")
         .selectAll("option")
-            .data(list)
+            .data(nodes)
             .enter()
             .append('option')
-            .text(d=>d)
-            .attr('value',d=>d)
+            .text(d=>d.name)
+            .attr('value',d=>d.id)
+            .property("selected",d=> d.name == 'Blaise Pascal')
 
     }
 
@@ -196,8 +213,7 @@ Promise.all([
             countryName = d.properties.name;
             number = d.properties.births
             filters.countries = d.id;
-            //updateHeatMap(filterData(dataComplete, filters))
-            updateBoxplot(filterData(dataComplete, filters))
+            
 
             $('#selectCountries').val(d.id); // Select the option with a value of '1'
             $('#selectCountries').trigger('change')
@@ -483,6 +499,13 @@ Promise.all([
         width = 500;
         height = 130;
 
+        guy = $("#selectMath").select2('data')[0].id
+
+        links = graph_data.links.filter(d=>d.source == guy | d.target == guy)
+        linked_nodes = links.reduce((acc, elem) => {acc.add(elem.source); acc.add(elem.target); return acc}, new Set())
+        console.log(linked_nodes)
+        nodes = graph_data.nodes.filter(d=>linked_nodes.has(d.id) )
+
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
@@ -499,14 +522,14 @@ Promise.all([
 
         var link = svg
             .selectAll("line")
-            .data(data.links)
+            .data(links)
             .enter()
             .append("line")
             .style("stroke", "#aaa")
 
         var node = svg
             .selectAll("circle")
-            .data(data.nodes)
+            .data(nodes)
             .enter()
             .append("circle")
             .attr("r", 20)
@@ -525,13 +548,25 @@ Promise.all([
                     .style("opacity", 0);
             });
 
-        var simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
+            svg
+            .selectAll("circle")
+            .data(nodes)
+            .transition()
+            .duration(500)
+
+            svg
+            .selectAll("circle")
+            .data(nodes)
+            .exit()
+            .remove()
+
+        var simulation = d3.forceSimulation(nodes)                 // Force algorithm is applied to data.nodes
             .force("link", d3.forceLink()                               // This force provides links between nodes
                 .id(function (d) { return d.id; })                     // This provide  the id of a node
-                .links(data.links)                                    // and this the list of links
+                .links(links)                                    // and this the list of links
             )
-            .force("charge", d3.forceManyBody().strength(-400))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-            .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
+            .force("charge", d3.forceManyBody().strength(-1000))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+            .force("center", d3.forceCenter())     // This force attracts nodes to the center of the svg area
             .on("end", ticked)
 
 
