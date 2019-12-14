@@ -10,7 +10,7 @@ Promise.all([
 
 
     var geoJSON = datasets[0];
-    var countryMap = geoJSON.features.reduce((dic, elem) => {dic[elem.id] = elem.properties.name; return dic;}, {})
+    var countryMap = geoJSON.features.reduce((dic, elem) => { dic[elem.id] = elem.properties.name; return dic; }, {})
     var births = datasets[1];
     var dataComplete = datasets[2];
     var graph_data = {
@@ -19,87 +19,88 @@ Promise.all([
     }
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.js-example-basic-multiple').select2();
     });
     $(".js-example-theme-multiple").select2({
         theme: "classic"
-      });
+    });
 
-      $(document).ready(function() {
+    $(document).ready(function () {
         listMath(graph_data.nodes)
 
-        $('.js-example-basic-single').select2({theme: "classic"})
+        $('.js-example-basic-single').select2({ theme: "classic" })
         buildGraph(graph_data);
 
     });
- 
+
 
     var filters = baseFilters(dataComplete)
     listCountries(filters)
     buildMap(filterData(dataComplete, filters), geoJSON);
+    updateMap(filterData(dataComplete, filters), geoJSON);
     buildOverTime(filterData(dataComplete, filters), geoJSON);
     buildHeatMap(filterData(dataComplete, filters));
     updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters));
 
 
-    function listCountries(filters){
+    function listCountries(filters) {
 
         var list = [...new Set(filters.countries)].sort()
 
         options = d3.select("#selectCountries")
-        .selectAll("option")
+            .selectAll("option")
             .data(list)
             .enter()
             .append('option')
-            .text(d=>countryMap[d])
-            .attr('value',d=>d)
+            .text(d => countryMap[d])
+            .attr('value', d => d)
     }
 
     $("#selectCountries")
-    .select2()
-    .on("select2:select", function(e){
+        .select2()
+        .on("select2:select", function (e) {
 
-        filters.countries = $("#selectCountries").select2('data').map(d=>d.id)
-        updateHeatMap(filterData(dataComplete,filters))
-        updateBoxplot(filterData(dataComplete,filters))
+            filters.countries = $("#selectCountries").select2('data').map(d => d.id)
+            updateHeatMap(filterData(dataComplete, filters))
+            updateBoxplot(filterData(dataComplete, filters))
 
-    })
+        })
 
-    .on("select2:unselect", function(e){
+        .on("select2:unselect", function (e) {
 
-        filters.countries = $("#selectCountries").select2('data').map(d=>d.id)
-        updateHeatMap(filterData(dataComplete,filters))
-        updateBoxplot(filterData(dataComplete,filters))
+            filters.countries = $("#selectCountries").select2('data').map(d => d.id)
+            updateHeatMap(filterData(dataComplete, filters))
+            updateBoxplot(filterData(dataComplete, filters))
 
-    })
+        })
 
     $("#selectMath")
-    .select2()
-    .on("select2:select", function(e){
-        
-        buildGraph(graph_data)
+        .select2()
+        .on("select2:select", function (e) {
 
-    })
+            buildGraph(graph_data)
 
-    function listMath(nodes){
+        })
+
+    function listMath(nodes) {
 
 
         options = d3.select("#selectMath")
-        .selectAll("option")
+            .selectAll("option")
             .data(nodes)
             .enter()
             .append('option')
-            .text(d=>d.name)
-            .attr('value',d=>d.id)
-            .property("selected",d=> d.name == 'Blaise Pascal')
+            .text(d => d.name)
+            .attr('value', d => d.id)
+            .property("selected", d => d.name == 'Blaise Pascal')
 
     }
 
     function baseFilters(data) {
         var filters = {}
-        filters.names = data.map(d=>d.name)
+        filters.names = data.map(d => d.name)
         filters.dates = [d3.min(data, d => +d.birth), d3.max(data, d => +d.birth)];
         filters.countries = data.map(d => d.country)
         filters.fields = data.map(d => d.field)
@@ -128,7 +129,66 @@ Promise.all([
     }
 
     function buildMap(data, geoJSON) {
+        let widthMap = 500;
+        let heightMap = 220;
 
+        let container = d3.select("#map")
+            .append("svg")
+            .attr("id", "mapViz")
+            .attr("width", widthMap)
+            .attr("height", heightMap)
+            .attr("transform", "translate(0,20)")
+
+        // Define the div for the tooltip
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        var projection = d3.geoMercator()
+        projection
+            .scale(97)
+            .translate([widthMap / 2, heightMap / 2 + 20])
+
+        let path = d3.geoPath()
+            .projection(projection)
+
+        container
+            .selectAll("path")
+            .data(geoJSON.features, d => d.id)
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .attr("stroke", "#ccc")
+            .attr("fill", "#fff")
+            .on('click', clickMap)
+            .on("mouseover", function (d) {
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                div.html(d.properties.name + "<br/>" + d.properties.births)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function (d) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            })
+
+
+        function clickMap(d) {
+            countryName = d.properties.name;
+            number = d.properties.births
+            filters.countries = d.id;
+
+
+            $('#selectCountries').val(d.id); // Select the option with a value of '1'
+            $('#selectCountries').trigger('change')
+            $('#selectCountries').trigger('select2:select');
+        }
+    }
+
+    function updateMap(data, geoJSON) {
         var birthsCountry = d3.nest()
             .key(d => d.country)
             .rollup(function (d) {
@@ -147,89 +207,22 @@ Promise.all([
             var res;
             if (filtered.length == 0) { res = 0 } else { res = filtered[0].n }
             return res
-
         }
 
         geoJSON.features.map(function (f) {
-            return f.properties.births = getBirths(f.id, birthsCountry)
+            f.properties.births = getBirths(f.id, birthsCountry)
         })
 
-        let widthMap = 500;
-        let heightMap = 220;
-
-
-
-        d3.select("#map > svg > *").remove();
-        let container = d3.select("#map")
-            .append("svg")
-            .attr("id", "mapViz")
-            .attr("width", widthMap)
-            .attr("height", heightMap)
-            .attr("transform", "translate(0,20)")
-
-        // Define the div for the tooltip
-        var div = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-        var projection = d3.geoMercator()
-        projection
-            .scale(97)
-            .translate([widthMap / 2, heightMap / 2 + 20])
-
-
-        let colorScale = d3.scaleLinear()
+        var colorScale = d3.scaleLinear()
             .domain([0, d3.max(birthsCountry, d => +d.n)])
             .range(["white", "red"])
 
-        let path = d3.geoPath()
-            .projection(projection)
-
-
-        selection = container
+        d3.select("#mapViz")
             .selectAll("path")
-            .data(geoJSON.features, d => d.key)
-
-
-        selection
-            .enter()
-            .append("path")
-            .attr("d", path)
-            .attr("stroke", "#ccc")
+            .data(geoJSON.features, d => d.id)
             .attr("fill", function (d) {
-                return colorScale(+d.properties.births)
+                return colorScale(d.properties.births)
             })
-            .on("mouseover", function (d) {
-                div.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                div.html(d.properties.name + "<br/>" + d.properties.births)
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function (d) {
-                div.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            })
-            .on('click', clickMap)
-
-
-
-
-        function clickMap(d) {
-            countryName = d.properties.name;
-            number = d.properties.births
-            filters.countries = d.id;
-            
-
-            $('#selectCountries').val(d.id); // Select the option with a value of '1'
-            $('#selectCountries').trigger('change')
-            $('#selectCountries').trigger('select2:select');
-
-        }
-
-
     }
 
     function buildOverTime(data, geoJSON) {
@@ -292,7 +285,7 @@ Promise.all([
                 )
 
 
-                buildMap(filteredData, geoJSON)
+                updateMap(filteredData, geoJSON)
             })
 
 
@@ -432,8 +425,8 @@ Promise.all([
         var y = d3.scaleBand()
             .domain([0, 1])
             .range([height, 0])
-            //.paddingInner(0.6)
-            //.paddingOuter(.6)
+        //.paddingInner(0.6)
+        //.paddingOuter(.6)
 
         svg
             .append("g")
@@ -450,8 +443,8 @@ Promise.all([
             .attr('id', 'lineBox')
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) { return (y(d.key)+0.125*height) })
-            .attr("y2", function (d) { return (y(d.key)+0.125*height) })
+            .attr("y1", function (d) { return (y(d.key) + 0.125 * height) })
+            .attr("y2", function (d) { return (y(d.key) + 0.125 * height) })
             .attr("stroke", "black")
             .style("width", 40)
 
@@ -509,10 +502,10 @@ Promise.all([
 
         guy = $("#selectMath").select2('data')[0].id
 
-        links = graph_data.links.filter(d=>d.source == guy | d.target == guy)
-        linked_nodes = links.reduce((acc, elem) => {acc.add(elem.source); acc.add(elem.target); return acc}, new Set())
+        links = graph_data.links.filter(d => d.source == guy | d.target == guy)
+        linked_nodes = links.reduce((acc, elem) => { acc.add(elem.source); acc.add(elem.target); return acc }, new Set())
         console.log(linked_nodes)
-        nodes = graph_data.nodes.filter(d=>linked_nodes.has(d.id) )
+        nodes = graph_data.nodes.filter(d => linked_nodes.has(d.id))
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -556,13 +549,13 @@ Promise.all([
                     .style("opacity", 0);
             });
 
-            svg
+        svg
             .selectAll("circle")
             .data(nodes)
             .transition()
             .duration(500)
 
-            svg
+        svg
             .selectAll("circle")
             .data(nodes)
             .exit()
@@ -652,7 +645,7 @@ Promise.all([
         d3.select("#yAxisHeat")
             .call(d3.axisLeft(y));
 
-            svg.selectAll()
+        svg.selectAll()
             .data(dataHeat, function (d) { return d.field + ':' + d.prof; })
             .enter()
             .append("rect")
@@ -673,7 +666,8 @@ Promise.all([
             .on("mouseout", function (d) {
                 div.transition()
                     .duration(500)
-                    .style("opacity", 0)})
+                    .style("opacity", 0)
+            })
 
 
 
