@@ -495,17 +495,9 @@ Promise.all([
 
     }
 
-    function buildGraph(data) {
-
-        width = 500;
-        height = 130;
-
-        guy = $("#selectMath").select2('data')[0].id
-
-        links = graph_data.links.filter(d => d.source == guy | d.target == guy)
-        linked_nodes = links.reduce((acc, elem) => { acc.add(elem.source); acc.add(elem.target); return acc }, new Set())
-        console.log(linked_nodes)
-        nodes = graph_data.nodes.filter(d => linked_nodes.has(d.id))
+    function buildGraph(graph_data) {
+        var width = 500;
+        var height = 130;
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -513,7 +505,7 @@ Promise.all([
 
         var svg = d3.select("#graph")
             .append("svg")
-            .attr('id','graphViz')
+            .attr('id', 'graphViz')
             .attr("width", width)
             .attr("height", height)
             .attr("transform",
@@ -522,103 +514,38 @@ Promise.all([
             .attr("transform",
                 "translate(100,100)");
 
-        var link = svg
-            .selectAll("line")
-            .data(links)
-            .enter()
-            .append("line")
-            .style("stroke", "#aaa")
-
-        var node = svg
-            .selectAll("circle")
-            .data(nodes)
-            .enter()
-            .append("circle")
-            .attr("r", 20)
-            .style("fill", "#69b3a2")
-            .on("mouseover", function (d) {
-                div.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                div.html(d.name)
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function (d) {
-                div.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-
-        svg
-            .selectAll("circle")
-            .data(nodes)
-            .transition()
-            .duration(500)
-
-        svg
-            .selectAll("circle")
-            .data(nodes)
-            .exit()
-            .remove()
-
-        var simulation = d3.forceSimulation(nodes)                 // Force algorithm is applied to data.nodes
-            .force("link", d3.forceLink()                               // This force provides links between nodes
-                .id(function (d) { return d.id; })                     // This provide  the id of a node
-                .links(links)                                    // and this the list of links
-            )
-            .force("charge", d3.forceManyBody().strength(-1000))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-            .force("center", d3.forceCenter())     // This force attracts nodes to the center of the svg area
-            .on("end", ticked)
-
-
-        function ticked() {
-            link
-                .attr("x1", function (d) { return d.source.x; })
-                .attr("y1", function (d) { return d.source.y; })
-                .attr("x2", function (d) { return d.target.x; })
-                .attr("y2", function (d) { return d.target.y; });
-
-            node
-                .attr("cx", function (d) { return d.x + 6; })
-                .attr("cy", function (d) { return d.y - 6; });
-        }
-
-
+        updateGraph(graph_data)
     }
 
 
-    function updateGraph(data) {
+    function updateGraph(graph_data) {
+        var guy = parseInt($("#selectMath").select2('data')[0].id);
+        var links = graph_data.links.filter(d => d.source == guy | d.target == guy)
+        var linked_nodes = links.reduce((acc, elem) => { acc.add(elem.source); acc.add(elem.target); return acc }, new Set())
+        var nodes = graph_data.nodes.filter(d => linked_nodes.has(d.id))
 
-        width = 500;
-        height = 130;
+        links = links.map((d, i) => { obj = Object.create(d); obj.id = i; return obj; });
+        nodes = nodes.map(d => Object.create(d));
 
-        guy = $("#selectMath").select2('data')[0].id
+        var simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.id))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(500 / 2, 130 / 2));
 
-        links = graph_data.links.filter(d => d.source == guy | d.target == guy)
-        linked_nodes = links.reduce((acc, elem) => { acc.add(elem.source); acc.add(elem.target); return acc }, new Set())
-        console.log(linked_nodes)
-        nodes = graph_data.nodes.filter(d => linked_nodes.has(d.id))
-
-        var div = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-        
         var svg = d3.select("#graphViz")
-            
+        var div = d3.select("div.tooltip")
 
         svg
-        .selectAll("circle")
-        .data(nodes)
-        .exit()
-        .remove()
+            .selectAll("circle")
+            .data(nodes, d => d.id)
+            .exit()
+            .remove()
 
         svg
-        .selectAll("line")
-        .data(links)
-        .exit()
-        .remove()
+            .selectAll("line")
+            .data(links, d => d.id)
+            .exit()
+            .remove()
 
         var link = svg
             .selectAll("line")
@@ -648,19 +575,7 @@ Promise.all([
                     .style("opacity", 0);
             });
 
-
-
-        var simulation = d3.forceSimulation(nodes)                 // Force algorithm is applied to data.nodes
-            .force("link", d3.forceLink()                               // This force provides links between nodes
-                .id(function (d) { return d.id; })                     // This provide  the id of a node
-                .links(links)                                    // and this the list of links
-            )
-            .force("charge", d3.forceManyBody().strength(-1000))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-            .force("center", d3.forceCenter())     // This force attracts nodes to the center of the svg area
-            .on("end", ticked)
-
-
-        function ticked() {
+        simulation.on("tick", () => {
             link
                 .attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y; })
@@ -668,11 +583,9 @@ Promise.all([
                 .attr("y2", function (d) { return d.target.y; });
 
             node
-                .attr("cx", function (d) { return d.x + 6; })
-                .attr("cy", function (d) { return d.y - 6; });
-        }
-
-
+                .attr("cx", function (d) { return d.x; })
+                .attr("cy", function (d) { return d.y; });
+        })
     }
 
 
