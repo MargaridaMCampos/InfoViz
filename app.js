@@ -51,6 +51,7 @@ Promise.all([
     buildHeatMap(filterData(dataComplete, filters));
     updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters),'won_award');
+    updateBoxplot(filterData(dataComplete, filters),'won_award');
 
     function reset(){
         filters = baseFilters(dataComplete)
@@ -337,7 +338,7 @@ Promise.all([
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
             .attr("d", line)
-            
+
 
         containerOvertime
             .append("g")
@@ -355,7 +356,7 @@ Promise.all([
             .append("g")
             .attr('class', 'brush')
             .call(brush)
-            
+
     }
 
     function buildHeatMap(data) {
@@ -433,7 +434,7 @@ Promise.all([
             }else {
                  filters.fields = this.textContent;
             }
-        
+
         updateBoxplot(filterData(data,filters),'won_award')
         updateMap(filterData(data,filters),geoJSON)
         buildLine(filterData(data,filters))
@@ -457,124 +458,16 @@ Promise.all([
             .attr("width", width)
             .attr("height", height)
             .attr("transform", "translate(0,20)")
-    
 
-        var ages = data.map(function(d){
-            var obj = {};
-            obj.name = d.name;
-            obj.age = +d.age;
-            obj.variable = d[variable];
-            return obj
-        })
-
-
-        const uniqueAges = Array.from(new Set(ages.map(a => a.name)))
-         .map(name => {
-           return ages.find(a => a.name === name)
-         })
-
-        var uniqueVariable = [...new Set(uniqueAges.map(item => item.variable))]
-
-        var stats = d3.nest()
-            .key(function (d) { return d.variable })
-            .rollup(function (d) {
-                q1 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .25)
-                median = d3.quantile(d.map(g => g.age).sort(d3.ascending), .5)
-                q3 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .75)
-                interQuantileRange = q3 - q1
-                min = d3.min(d,g=>g.age)
-                max = d3.max(d,g=>g.age)
-                return ({ q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
-            })
-            .entries(uniqueAges)
-
-
-        // Show the X scale
-        var x = d3.scaleLinear()
-            .range([0, width - 40])
-            .domain([0, 120])
-
-
-        svg.append("g")
+            svg.append("g")
             .attr("id", "xAxisBox")
             .attr("class", "axis")
             .attr("transform", "translate(20,300)")
-            .call(d3.axisBottom(x))
-
-        var y = d3.scaleBand()
-            .domain(uniqueVariable)
-            .range([height-40, 0])
-            .paddingInner(0.6)
-            .paddingOuter(.4)
-
-        svg
+            svg
             .append("g")
             .attr("id", "yAxisBox")
             .attr("class", "axis")
-            .call(d3.axisLeft(y))
             .attr("transform", "translate(20,10)")
-
-
-           console.log(svg
-            .selectAll("vertLines"))
-
-        svg
-            .selectAll("vertLines")
-            .data(stats)
-            .enter()
-            .append("line")
-            .attr('id', 'lineBox')
-            .attr("x1", function (d) { return (x(d.value.min)) })
-            .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) { return (y(d.key)+30) })
-            .attr("y2", function (d) { return (y(d.key)+30) })
-            .attr("stroke", "grey")
-            .style("width", 40)
-
-        var boxWidth = height/uniqueVariable.length -20;
-        svg
-            .selectAll("boxes")
-            .data(stats)
-            .enter()
-            .append("rect")
-            .attr('id', 'boxBox')
-            .attr("x", function (d) { return (x(d.value.q1)) })
-            .attr("y", function (d) { return (y(d.key)+30 - boxWidth / 2) })
-            .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
-            .attr("height", boxWidth)
-            .attr("stroke", "grey")
-            .style("fill", "#bc5090")
-            .on("mouseover", function (d) {
-                div.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                div.html('<b>Min: </b>' + d.value.min + '<br>' +
-                    '<b>Q1: </b>' + d.value.q1 + '<br>' +
-                    '<b>Median: </b>' + d.value.median + "<br/>" +
-                    '<b>Q3: </b>' + d.value.q3 + '<br>' +
-                    '<b>Max: </b>' + d.value.max
-                )
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function (d) {
-                div.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-
-        svg
-            .selectAll("medianLines")
-            .data(stats)
-            .enter()
-            .append("line")
-            .attr('id', 'medianBox')
-            .attr("x1", function (d) { return (x(d.value.median)) })
-            .attr("x2", function (d) { return (x(d.value.median)) })
-            .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
-            .attr("stroke", "grey")
-            .style("width", 80)
 
     }
 
@@ -787,8 +680,6 @@ Promise.all([
     }
 
     function updateBoxplot(data,variable) {
-
-
         var width = 380
         var height = 330
 
@@ -811,7 +702,7 @@ Promise.all([
 
         var uniqueVariable = [...new Set(uniqueAges.map(item => item.variable))]
 
-        
+
 
         var stats = d3.nest()
             .key(function (d) { return d.variable })
@@ -846,25 +737,26 @@ Promise.all([
         d3.select("#yAxisBox")
             .call(d3.axisLeft(y))
 
-        svg.selectAll("vertLines")
+        svg.selectAll("line.vertLine")
             .data(stats)
             .exit()
             .remove()
 
-        svg.selectAll("boxes")
+        svg.selectAll("rect")
             .data(stats)
             .exit()
             .remove()
 
-        svg.selectAll("medianLines")
+        svg.selectAll("line.medianLine")
             .data(stats)
             .exit()
             .remove()
 
-        svg.selectAll("vertLines")
+        svg.selectAll("line.vertLine")
             .data(stats)
             .enter()
             .append('line')
+            .attr('class', 'vertLine')
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
             .attr("y1", function (d) { return (y(d.key)+30) })
@@ -874,7 +766,7 @@ Promise.all([
 
 
 
-        svg.selectAll("boxes")
+        svg.selectAll("rect")
             .data(stats)
             .enter()
             .append('rect')
@@ -887,10 +779,11 @@ Promise.all([
             .style("fill", "#bc5090")
 
 
-            svg.selectAll("medianLines")
+            svg.selectAll("line.medianLine")
             .data(stats)
             .enter()
             .append('line')
+            .attr('class', 'medianLine')
             .attr("x1", function (d) { return (x(d.value.median)) })
             .attr("x2", function (d) { return (x(d.value.median)) })
             .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
@@ -898,21 +791,21 @@ Promise.all([
             .attr("stroke", "black")
             .style("width", 80)
 
-            
-        svg.selectAll("vertLines")
+
+        svg.selectAll("line.vertLine")
             .data(stats)
             .transition()
             .duration(500)
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) {console.log(y(d.key)+30) 
+            .attr("y1", function (d) {console.log(y(d.key)+30)
                 return (y(d.key)+30) })
             .attr("y2", function (d) { return (y(d.key)+30) })
             .attr("stroke", "black")
             .style("width", 40)
 
 
-            svg.selectAll("boxes")
+            svg.selectAll("rect")
             .data(stats)
             .transition()
             .duration(500)
@@ -923,7 +816,7 @@ Promise.all([
             .attr("stroke", "black")
             .style("fill", "#bc5090")
 
-        svg.selectAll("medianLines")
+        svg.selectAll("line.medianLine")
             .data(stats)
             .transition()
             .duration(500)
