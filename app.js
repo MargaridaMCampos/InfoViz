@@ -72,9 +72,9 @@ Promise.all([
             .text(d => countryMap[d])
             .attr('value', d => d)
     }
-  
 
-    
+
+
 
     $("#selectCountries")
         .select2()
@@ -182,7 +182,7 @@ Promise.all([
 
 
         container
-            .call(d3.zoom().scaleExtent([0.5, 7]) 
+            .call(d3.zoom().scaleExtent([0.5, 7])
             .extent([[0, 0], [widthMap, heightMap]]).on("zoom", function () {
                 container.selectAll("path").attr("transform", d3.event.transform)
             }))
@@ -272,13 +272,14 @@ Promise.all([
             })
             .sort((a, b) => d3.ascending(a.decade, b.decade))
         let widthOvertime = 450;
-        let heightOvertime = 130;
+        let heightOvertime = 140;
 
         var containerOvertime = d3.select('#overtime')
             .append("svg")
             .attr("width", widthOvertime)
             .attr("height", heightOvertime)
             .attr("transform", "translate(0,20)")
+            .attr('id',"overtimeViz")
 
         var div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -301,7 +302,7 @@ Promise.all([
                 return xTimeScale(+d.decade)+30
             })
             .y(function (d) {
-                return yTimeScale(+d.n)+10
+                return yTimeScale(+d.n)+0
             })
 
         var filterTime = {}
@@ -342,7 +343,7 @@ Promise.all([
             .append("g")
             .call(d3.axisLeft(yTimeScale))
             .attr('class','axis')
-            .attr('transform','translate(30,10)')
+            .attr('transform','translate(30,0)')
 
         containerOvertime
             .append("g")
@@ -435,8 +436,9 @@ Promise.all([
         
         updateBoxplot(filterData(data,filters),'won_award')
         updateMap(filterData(data,filters),geoJSON)
+        buildLine(filterData(data,filters))
 
-        
+
         }
 
     }
@@ -626,16 +628,18 @@ Promise.all([
             .exit()
             .remove()
 
-        var link = svg
+        svg
             .selectAll("line")
-            .data(links)
+            .data(links, d => d.id)
             .enter()
             .append("line")
             .style("stroke", "#aaa")
 
-        var node = svg
+        var link = svg.selectAll("line")
+
+        svg
             .selectAll("circle")
-            .data(nodes)
+            .data(nodes, d => d.id)
             .enter()
             .append("circle")
             .attr("r", 20)
@@ -653,6 +657,8 @@ Promise.all([
                     .duration(500)
                     .style("opacity", 0);
             });
+
+        var node = svg.selectAll("circle")
 
         simulation.on("tick", () => {
             link
@@ -840,7 +846,7 @@ Promise.all([
         d3.select("#yAxisBox")
             .call(d3.axisLeft(y))
 
-        svg.selectAll("#lineBox")
+        svg.selectAll("vertLines")
             .data(stats)
             .exit()
             .remove()
@@ -931,6 +937,52 @@ Promise.all([
 
     }
 
-    
+    function buildLine(data,filter){
+
+        let widthOvertime = 450;
+        let heightOvertime = 140;
+
+        svg = d3.select('#overtimeViz')
+
+        var birthsTime = d3.nest()
+            .key(d => +d.birth)
+            .rollup(function (d) {
+                return d3.sum(d, function (g) { return 1 })
+            }).entries(data)
+            .map(function (row) {
+                return { decade: row.key, n: row.value }
+            })
+            .sort((a, b) => d3.ascending(a.decade, b.decade))
+            let xTimeScale = d3.scaleLinear()
+            .domain(d3.extent(birthsTime, d => +d.decade))
+            .range([0, widthOvertime-40])
+
+
+        let yTimeScale = d3.scaleLinear()
+            .domain([0, d3.max(birthsTime, d => +d.n)])
+            .range([heightOvertime-40, 0])
+
+
+
+        var line = d3.line()
+            .defined(d => !isNaN(d.n))
+            .x(function (d) {
+                return xTimeScale(+d.decade)+30
+            })
+            .y(function (d) {
+                return yTimeScale(+d.n)+0
+            })
+
+        svg
+            .append("path")
+            .datum(birthsTime)
+            .attr("fill", "none")
+            .attr("stroke", "#003f5c")
+            .attr("stroke-width", 1.5)
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("d", line)
+    }
+
 })
 
