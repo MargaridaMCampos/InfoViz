@@ -44,6 +44,9 @@ Promise.all([
     });
 
     var filters = baseFilters(dataComplete)
+    var scales = {}
+
+
     listCountries(filters)
     buildMap(filterData(dataComplete, filters), geoJSON);
     updateMap(filterData(dataComplete, filters), geoJSON);
@@ -84,6 +87,7 @@ Promise.all([
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
             updateHeatMap(filterData(dataComplete, filters))
             updateBoxplot(filterData(dataComplete, filters),'won_award')
+            listMath(graph_data.nodes)
 
         })
 
@@ -92,6 +96,7 @@ Promise.all([
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
             updateHeatMap(filterData(dataComplete, filters))
             updateBoxplot(filterData(dataComplete, filters),'won_award')
+            listMath(graph_data.nodes)
 
         })
 
@@ -113,16 +118,38 @@ Promise.all([
 
     })
 
+    var uniqueValues = {}
+
+    uniqueValues.fields =  [...new Set(dataComplete.map(item => item.field))]
+    uniqueValues.profs = [...new Set(dataComplete.map(item => item.profession))]
+
+    var colors =_.zipObject(uniqueValues.fields,
+        ["#2f4b7c","#665191","#a05195","#d45087","#f95d6a","#ff7c43","#ffa600"])
+
+
     function listMath(nodes) {
 
+        var mathematicians = new Set(filterData(dataComplete,filters).map(d=>d.name))
 
         options = d3.select("#selectMath")
+        console.log(mathematicians)    
+        console.log(nodes.filter(e=>mathematicians.has(e.name)))
+        options
             .selectAll("option")
-            .data(nodes)
+            .data(nodes.filter(e=>mathematicians.has(e.name)))
+            .exit()
+            .remove()    
+
+        options
+            .selectAll("option")
+            .data(nodes.filter(e=>mathematicians.has(e.name)))
             .enter()
             .append('option')
+        options
+            .selectAll("option")
+            .data(nodes.filter(e=>mathematicians.has(e.name)))
             .text(d => d.name)
-            .attr('value', d => d.id)
+            .attr('value',d=>d.id)
             .property("selected", d => d.name == 'Blaise Pascal')
 
     }
@@ -295,7 +322,8 @@ Promise.all([
             .domain([0, d3.max(birthsTime, d => +d.n)])
             .range([heightOvertime-40, 0])
 
-
+        scales.xTime = xTimeScale
+        scales.yTime = yTimeScale
 
         var line = d3.line()
             .defined(d => !isNaN(d.n))
@@ -382,8 +410,8 @@ Promise.all([
 
         dataHeat = dataHeat.filter(d => d.value > 20)
 
-        fields = [...new Set(dataHeat.map(item => item.field))]
-        profs = [...new Set(dataHeat.map(item => item.prof))]
+        fields =  [...new Set(dataComplete.map(item => item.field))]
+        profs = [...new Set(dataComplete.map(item => item.profession))]
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -437,7 +465,8 @@ Promise.all([
 
         updateBoxplot(filterData(data,filters),'won_award')
         updateMap(filterData(data,filters),geoJSON)
-        buildLine(filterData(data,filters))
+        buildLine(filterData(data,filters),this.textContent)
+        listMath(graph_data.nodes)
 
 
         }
@@ -717,7 +746,7 @@ Promise.all([
             })
             .entries(uniqueAges)
 
-        var boxWidth = height/uniqueVariable.length -20;
+        var boxWidth = height/(uniqueVariable.length+1)-10;
 
         // Show the X scale
         var x = d3.scaleLinear()
@@ -771,8 +800,7 @@ Promise.all([
             .enter()
             .append('rect')
             .attr("x", function (d) { return (x(d.value.q1)) })
-            .attr("y", function (d) {console.log(y(d.key))
-                 return (y(d.key)+30 - boxWidth / 2) })
+            .attr("y", function (d) { return (y(d.key)+30 - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
             .attr("stroke", "black")
@@ -798,8 +826,7 @@ Promise.all([
             .duration(500)
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) {console.log(y(d.key)+30)
-                return (y(d.key)+30) })
+            .attr("y1", function (d) { return (y(d.key)+30) })
             .attr("y2", function (d) { return (y(d.key)+30) })
             .attr("stroke", "black")
             .style("width", 40)
@@ -846,14 +873,10 @@ Promise.all([
                 return { decade: row.key, n: row.value }
             })
             .sort((a, b) => d3.ascending(a.decade, b.decade))
-            let xTimeScale = d3.scaleLinear()
-            .domain(d3.extent(birthsTime, d => +d.decade))
-            .range([0, widthOvertime-40])
+            
 
-
-        let yTimeScale = d3.scaleLinear()
-            .domain([0, d3.max(birthsTime, d => +d.n)])
-            .range([heightOvertime-40, 0])
+        let xTimeScale = scales.xTime
+        let yTimeScale = scales.yTime
 
 
 
@@ -870,7 +893,7 @@ Promise.all([
             .append("path")
             .datum(birthsTime)
             .attr("fill", "none")
-            .attr("stroke", "#003f5c")
+            .attr("stroke", colors[filter])
             .attr("stroke-width", 1.5)
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
