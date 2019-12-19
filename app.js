@@ -35,6 +35,8 @@ Promise.all([
         $('.js-example-basic-single').select2({ theme: "classic" })
         buildGraph(graph_data);
         buildOverTime(filterData(dataComplete, filters), geoJSON);
+        buildHeatMap(filterData(dataComplete, filters));
+        updateHeatMap(filterData(dataComplete, filters));
 
     });
 
@@ -51,8 +53,6 @@ Promise.all([
     listCountries(filters)
     buildMap(filterData(dataComplete, filters), geoJSON);
     updateMap(filterData(dataComplete, filters), geoJSON);
-    buildHeatMap(filterData(dataComplete, filters));
-    updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters),'won_award');
     updateBoxplot(filterData(dataComplete, filters),'won_award');
 
@@ -106,6 +106,7 @@ Promise.all([
 
             updateGraph(graph_data)
             updateOverTime(filterData(dataComplete, filters))
+            updateHeatMap(filterData(dataComplete, filters))
 
         })
 
@@ -634,7 +635,10 @@ Promise.all([
         width = 280;
         height = 510;
 
-
+        var guy = $("#selectMath").select2('data')[0].text;
+        var lines = dataComplete.filter(e=>e.name == guy)
+        var guy_fields = lines.reduce((acc, e) => {acc.add(e.field); return acc;}, new Set)
+        var guy_professions = lines.reduce((acc, e) => {acc.add(e.profession); return acc;}, new Set)
 
         var dic = data.reduce((acc, guy) => {
             let key = guy.field + ':' + guy.profession;
@@ -702,7 +706,6 @@ Promise.all([
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", function (d) { return myColor(+d.value) })
-            .style("stroke", 'rgba(248,248,248,1)')
             .style("stroke-width", 1)
             .on("mouseover", function (d) {
                 div.transition()
@@ -732,7 +735,10 @@ Promise.all([
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", function (d) { return myColor(+d.value) })
-
+            .style("stroke", d => {
+                if (guy_fields.has(d.field) && guy_professions.has(d.prof)) return "black"
+                return ""
+            })
 
         svg.selectAll('rect')
             .data(dataHeat)
