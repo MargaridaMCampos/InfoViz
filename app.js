@@ -132,8 +132,7 @@ Promise.all([
         var mathematicians = new Set(filterData(dataComplete,filters).map(d=>d.name))
 
         options = d3.select("#selectMath")
-        console.log(mathematicians)    
-        console.log(nodes.filter(e=>mathematicians.has(e.name)))
+ 
         options
             .selectAll("option")
             .data(nodes.filter(e=>mathematicians.has(e.name)))
@@ -477,10 +476,6 @@ Promise.all([
         var width = 380
         var height = 330
 
-        var div = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
         var svg = d3.select("#boxplot")
             .append("svg")
             .attr('id', 'boxplotViz')
@@ -498,6 +493,7 @@ Promise.all([
             .attr("class", "axis")
             .attr("transform", "translate(20,10)")
 
+            
     }
 
     function buildGraph(graph_data) {
@@ -723,6 +719,9 @@ Promise.all([
             return obj
         })
 
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         const uniqueAges = Array.from(new Set(ages.map(a => a.name)))
          .map(name => {
@@ -842,6 +841,26 @@ Promise.all([
             .attr("height", boxWidth)
             .attr("stroke", "black")
             .style("fill", "#bc5090")
+            
+            svg.selectAll('rect')
+            .on("mouseover", function (d) {
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                div.html('<b>Min: </b>' + d.value.min + '<br>' +
+                    '<b>Q1: </b>' + d.value.q1 + '<br>' +
+                    '<b>Median: </b>' + d.value.median + "<br/>" +
+                    '<b>Q3: </b>' + d.value.q3 + '<br>' +
+                    '<b>Max: </b>' + d.value.max
+                )
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function (d) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
 
         svg.selectAll("line.medianLine")
             .data(stats)
