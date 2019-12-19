@@ -50,14 +50,14 @@ Promise.all([
     buildOverTime(filterData(dataComplete, filters), geoJSON);
     buildHeatMap(filterData(dataComplete, filters));
     updateHeatMap(filterData(dataComplete, filters));
-    buildBoxplot(filterData(dataComplete, filters));
+    buildBoxplot(filterData(dataComplete, filters),'won_award');
 
     function reset(){
         filters = baseFilters(dataComplete)
         listCountries(filters)
         updateMap(filterData(dataComplete, filters), geoJSON);
         updateHeatMap(filterData(dataComplete, filters));
-        updateBoxplot(filterData(dataComplete, filters));
+        updateBoxplot(filterData(dataComplete, filters),'won_award');
 
     }
     function listCountries(filters) {
@@ -82,7 +82,7 @@ Promise.all([
 
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
             updateHeatMap(filterData(dataComplete, filters))
-            updateBoxplot(filterData(dataComplete, filters))
+            updateBoxplot(filterData(dataComplete, filters),'won_award')
 
         })
 
@@ -90,7 +90,7 @@ Promise.all([
 
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
             updateHeatMap(filterData(dataComplete, filters))
-            updateBoxplot(filterData(dataComplete, filters))
+            updateBoxplot(filterData(dataComplete, filters),'won_award')
 
         })
 
@@ -101,6 +101,16 @@ Promise.all([
             updateGraph(graph_data)
 
         })
+
+    $("#selectBoxplot")
+    .select2()
+    .on("select2:select", function (e) {
+
+        var variable = $('#selectBoxplot').select2('data')[0].id;
+
+        updateBoxplot(filterData(dataComplete,filters),variable)
+
+    })
 
     function listMath(nodes) {
 
@@ -270,6 +280,10 @@ Promise.all([
             .attr("height", heightOvertime)
             .attr("transform", "translate(0,20)")
 
+        var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
         let xTimeScale = d3.scaleLinear()
             .domain(d3.extent(birthsTime, d => +d.decade))
             .range([0, widthOvertime-40])
@@ -322,6 +336,7 @@ Promise.all([
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
             .attr("d", line)
+            
 
         containerOvertime
             .append("g")
@@ -339,10 +354,7 @@ Promise.all([
             .append("g")
             .attr('class', 'brush')
             .call(brush)
-
-        containerOvertime.node()
-
-
+            
     }
 
     function buildHeatMap(data) {
@@ -421,7 +433,7 @@ Promise.all([
                  filters.fields = this.textContent;
             }
         
-        updateBoxplot(filterData(data,filters))
+        updateBoxplot(filterData(data,filters),'won_award')
         updateMap(filterData(data,filters),geoJSON)
 
         
@@ -429,7 +441,7 @@ Promise.all([
 
     }
 
-    function buildBoxplot(data) {
+    function buildBoxplot(data,variable) {
         var width = 380
         var height = 330
 
@@ -443,12 +455,13 @@ Promise.all([
             .attr("width", width)
             .attr("height", height)
             .attr("transform", "translate(0,20)")
-        
+    
+
         var ages = data.map(function(d){
             var obj = {};
             obj.name = d.name;
             obj.age = +d.age;
-            obj.won_award = d.won_award;
+            obj.variable = d[variable];
             return obj
         })
 
@@ -458,9 +471,10 @@ Promise.all([
            return ages.find(a => a.name === name)
          })
 
+        var uniqueVariable = [...new Set(uniqueAges.map(item => item.variable))]
 
         var stats = d3.nest()
-            .key(function (d) { return d.won_award })
+            .key(function (d) { return d.variable })
             .rollup(function (d) {
                 q1 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .25)
                 median = d3.quantile(d.map(g => g.age).sort(d3.ascending), .5)
@@ -486,7 +500,7 @@ Promise.all([
             .call(d3.axisBottom(x))
 
         var y = d3.scaleBand()
-            .domain([0, 1])
+            .domain(uniqueVariable)
             .range([height-40, 0])
             .paddingInner(0.6)
             .paddingOuter(.4)
@@ -498,6 +512,9 @@ Promise.all([
             .call(d3.axisLeft(y))
             .attr("transform", "translate(20,10)")
 
+
+           console.log(svg
+            .selectAll("vertLines"))
 
         svg
             .selectAll("vertLines")
@@ -512,7 +529,7 @@ Promise.all([
             .attr("stroke", "grey")
             .style("width", 40)
 
-        var boxWidth = 50
+        var boxWidth = height/uniqueVariable.length -20;
         svg
             .selectAll("boxes")
             .data(stats)
@@ -763,7 +780,7 @@ Promise.all([
 
     }
 
-    function updateBoxplot(data) {
+    function updateBoxplot(data,variable) {
 
 
         var width = 380
@@ -776,7 +793,7 @@ Promise.all([
             var obj = {};
             obj.name = d.name;
             obj.age = +d.age;
-            obj.won_award = d.won_award;
+            obj.variable = d[variable];
             return obj
         })
 
@@ -786,9 +803,12 @@ Promise.all([
            return ages.find(a => a.name === name)
          })
 
+        var uniqueVariable = [...new Set(uniqueAges.map(item => item.variable))]
+
+        
 
         var stats = d3.nest()
-            .key(function (d) { return d.won_award })
+            .key(function (d) { return d.variable })
             .rollup(function (d) {
                 q1 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .25)
                 median = d3.quantile(d.map(g => g.age).sort(d3.ascending), .5)
@@ -800,7 +820,8 @@ Promise.all([
             })
             .entries(uniqueAges)
 
-    
+        var boxWidth = height/uniqueVariable.length -20;
+
         // Show the X scale
         var x = d3.scaleLinear()
             .range([0, width - 40])
@@ -811,7 +832,7 @@ Promise.all([
             .call(d3.axisBottom(x))
 
         var y = d3.scaleBand()
-            .domain([0, 1])
+            .domain(uniqueVariable)
             .range([height-40, 0])
             .paddingInner(0.6)
             .paddingOuter(.6)
@@ -819,11 +840,25 @@ Promise.all([
         d3.select("#yAxisBox")
             .call(d3.axisLeft(y))
 
-
-        d3.selectAll("#lineBox")
+        svg.selectAll("#lineBox")
             .data(stats)
-            .transition()
-            .duration(500)
+            .exit()
+            .remove()
+
+        svg.selectAll("boxes")
+            .data(stats)
+            .exit()
+            .remove()
+
+        svg.selectAll("medianLines")
+            .data(stats)
+            .exit()
+            .remove()
+
+        svg.selectAll("vertLines")
+            .data(stats)
+            .enter()
+            .append('line')
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
             .attr("y1", function (d) { return (y(d.key)+30) })
@@ -831,8 +866,47 @@ Promise.all([
             .attr("stroke", "black")
             .style("width", 40)
 
-        var boxWidth = 50
-        d3.selectAll("#boxBox")
+
+
+        svg.selectAll("boxes")
+            .data(stats)
+            .enter()
+            .append('rect')
+            .attr("x", function (d) { return (x(d.value.q1)) })
+            .attr("y", function (d) {console.log(y(d.key))
+                 return (y(d.key)+30 - boxWidth / 2) })
+            .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
+            .attr("height", boxWidth)
+            .attr("stroke", "black")
+            .style("fill", "#bc5090")
+
+
+            svg.selectAll("medianLines")
+            .data(stats)
+            .enter()
+            .append('line')
+            .attr("x1", function (d) { return (x(d.value.median)) })
+            .attr("x2", function (d) { return (x(d.value.median)) })
+            .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
+            .attr("stroke", "black")
+            .style("width", 80)
+
+            
+        svg.selectAll("vertLines")
+            .data(stats)
+            .transition()
+            .duration(500)
+            .attr("x1", function (d) { return (x(d.value.min)) })
+            .attr("x2", function (d) { return (x(d.value.max)) })
+            .attr("y1", function (d) {console.log(y(d.key)+30) 
+                return (y(d.key)+30) })
+            .attr("y2", function (d) { return (y(d.key)+30) })
+            .attr("stroke", "black")
+            .style("width", 40)
+
+
+            svg.selectAll("boxes")
             .data(stats)
             .transition()
             .duration(500)
@@ -843,7 +917,7 @@ Promise.all([
             .attr("stroke", "black")
             .style("fill", "#bc5090")
 
-        d3.selectAll("#medianBox")
+        svg.selectAll("medianLines")
             .data(stats)
             .transition()
             .duration(500)
@@ -853,6 +927,7 @@ Promise.all([
             .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
+
 
     }
 
