@@ -20,7 +20,10 @@ Promise.all([
 
 
     $(document).ready(function () {
-        $('.js-example-basic-multiple').select2();
+        $('.js-example-placeholder-multiple').select2();
+        $(".js-example-placeholder-multiple").select2({
+            placeholder: "All Countries"
+        });
     });
     $(".js-example-theme-multiple").select2({
         theme: "classic"
@@ -34,6 +37,11 @@ Promise.all([
 
     });
 
+    $(document).ready(function () {
+
+       // $('#resetButton').on('click',console.log('ahah'))
+
+    });
 
     var filters = baseFilters(dataComplete)
     listCountries(filters)
@@ -44,7 +52,14 @@ Promise.all([
     updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters));
 
+    function reset(){
+        filters = baseFilters(dataComplete)
+        listCountries(filters)
+        updateMap(filterData(dataComplete, filters), geoJSON);
+        updateHeatMap(filterData(dataComplete, filters));
+        updateBoxplot(filterData(dataComplete, filters));
 
+    }
     function listCountries(filters) {
 
         var list = [...new Set(filters.countries)].sort()
@@ -57,6 +72,9 @@ Promise.all([
             .text(d => countryMap[d])
             .attr('value', d => d)
     }
+  
+
+    
 
     $("#selectCountries")
         .select2()
@@ -129,7 +147,7 @@ Promise.all([
     }
 
     function buildMap(data, geoJSON) {
-        let widthMap = 500;
+        let widthMap = 450;
         let heightMap = 220;
 
         let container = d3.select("#map")
@@ -152,7 +170,12 @@ Promise.all([
         let path = d3.geoPath()
             .projection(projection)
 
+
         container
+            .call(d3.zoom().scaleExtent([0.5, 7]) 
+            .extent([[0, 0], [widthMap, heightMap]]).on("zoom", function () {
+                container.selectAll("path").attr("transform", d3.event.transform)
+            }))
             .selectAll("path")
             .data(geoJSON.features, d => d.id)
             .enter()
@@ -174,6 +197,7 @@ Promise.all([
                     .duration(500)
                     .style("opacity", 0);
             })
+
 
 
         function clickMap(d) {
@@ -215,7 +239,7 @@ Promise.all([
 
         var colorScale = d3.scaleLinear()
             .domain([0, d3.max(birthsCountry, d => +d.n)])
-            .range(["white", "red"])
+            .range(["white", "#003f5c"])
 
         d3.select("#mapViz")
             .selectAll("path")
@@ -237,7 +261,7 @@ Promise.all([
                 return { decade: row.key, n: row.value }
             })
             .sort((a, b) => d3.ascending(a.decade, b.decade))
-        let widthOvertime = 500;
+        let widthOvertime = 450;
         let heightOvertime = 130;
 
         var containerOvertime = d3.select('#overtime')
@@ -248,22 +272,22 @@ Promise.all([
 
         let xTimeScale = d3.scaleLinear()
             .domain(d3.extent(birthsTime, d => +d.decade))
-            .range([0, widthOvertime])
+            .range([0, widthOvertime-40])
 
 
         let yTimeScale = d3.scaleLinear()
             .domain([0, d3.max(birthsTime, d => +d.n)])
-            .range([heightOvertime, 0])
+            .range([heightOvertime-40, 0])
 
 
 
         var line = d3.line()
             .defined(d => !isNaN(d.n))
             .x(function (d) {
-                return xTimeScale(+d.decade)
+                return xTimeScale(+d.decade)+30
             })
             .y(function (d) {
-                return yTimeScale(+d.n)
+                return yTimeScale(+d.n)+10
             })
 
         var filterTime = {}
@@ -293,7 +317,7 @@ Promise.all([
             .append("path")
             .datum(birthsTime)
             .attr("fill", "none")
-            .attr("stroke", "steelblue")
+            .attr("stroke", "#003f5c")
             .attr("stroke-width", 1.5)
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
@@ -302,7 +326,14 @@ Promise.all([
         containerOvertime
             .append("g")
             .call(d3.axisLeft(yTimeScale))
-            .attr("stroke", "black")
+            .attr('class','axis')
+            .attr('transform','translate(30,10)')
+
+        containerOvertime
+            .append("g")
+            .call(d3.axisBottom(xTimeScale))
+            .attr('class','axis')
+            .attr('transform','translate(30,100)')
 
         containerOvertime
             .append("g")
@@ -316,8 +347,8 @@ Promise.all([
 
     function buildHeatMap(data) {
 
-        width = 500;
-        height = 300;
+        width = 300;
+        height = 530;
 
         var dic = data.reduce((acc, guy) => {
             let key = guy.field + ':' + guy.profession;
@@ -353,38 +384,54 @@ Promise.all([
 
         // Build X scales and axis:
         var x = d3.scaleBand()
-            .range([20, width - 20])
+            .range([20, width - 50])
             .domain(fields)
             .padding(0.01);
 
         svg.append("g")
             .attr('id', 'xAxisHeat')
-            .attr("transform", "translate(0," + (height - 20) + ")")
+            .attr("class", "axis")
+            .attr("transform", "translate(35,450)")
             .call(d3.axisBottom(x))
 
         var myColor = d3.scaleLinear()
-            .range(["white", "#69b3a2"])
+            .range(["#e5ebee", "#003f5c"])
             .domain([0, d3.max(dataHeat, d => +d.value)])
         // Build X scales and axis:
         var y = d3.scaleBand()
-            .range([20, height - 20])
+            .range([20, height - 60])
             .domain(profs)
             .padding(0.01);
 
         svg.append("g")
             .attr('id', 'yAxisHeat')
-            .attr("transform", "translate(20,0)")
+            .attr("class", "axis")
+            .attr("transform", "translate(62,0)")
             .call(d3.axisLeft(y));
 
+        d3.selectAll(".tick text").on("click", axisClick);
 
+        function axisClick(){
 
+            var x = this.getAttribute("x")
+
+            if(x == -9){
+                 filters.professions = this.textContent;
+            }else {
+                 filters.fields = this.textContent;
+            }
+        
+        updateBoxplot(filterData(data,filters))
+        updateMap(filterData(data,filters),geoJSON)
+
+        
+        }
 
     }
 
     function buildBoxplot(data) {
-
-        var width = 500
-        var height = 180
+        var width = 380
+        var height = 330
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -396,6 +443,21 @@ Promise.all([
             .attr("width", width)
             .attr("height", height)
             .attr("transform", "translate(0,20)")
+        
+        var ages = data.map(function(d){
+            var obj = {};
+            obj.name = d.name;
+            obj.age = +d.age;
+            obj.won_award = d.won_award;
+            return obj
+        })
+
+
+        const uniqueAges = Array.from(new Set(ages.map(a => a.name)))
+         .map(name => {
+           return ages.find(a => a.name === name)
+         })
+
 
         var stats = d3.nest()
             .key(function (d) { return d.won_award })
@@ -404,35 +466,37 @@ Promise.all([
                 median = d3.quantile(d.map(g => g.age).sort(d3.ascending), .5)
                 q3 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .75)
                 interQuantileRange = q3 - q1
-                min = q1 - 1.5 * interQuantileRange
-                max = q3 + 1.5 * interQuantileRange
+                min = d3.min(d,g=>g.age)
+                max = d3.max(d,g=>g.age)
                 return ({ q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
             })
-            .entries(data)
+            .entries(uniqueAges)
 
 
         // Show the X scale
         var x = d3.scaleLinear()
-            .range([0, width - 20])
-            .domain([30, 120])
+            .range([0, width - 40])
+            .domain([0, 120])
 
 
         svg.append("g")
             .attr("id", "xAxisBox")
-            .attr("transform", "translate(10,160)")
+            .attr("class", "axis")
+            .attr("transform", "translate(20,300)")
             .call(d3.axisBottom(x))
 
         var y = d3.scaleBand()
             .domain([0, 1])
-            .range([height, 0])
-        //.paddingInner(0.6)
-        //.paddingOuter(.6)
+            .range([height-40, 0])
+            .paddingInner(0.6)
+            .paddingOuter(.4)
 
         svg
             .append("g")
             .attr("id", "yAxisBox")
+            .attr("class", "axis")
             .call(d3.axisLeft(y))
-            .attr("transform", "translate(15,-20)")
+            .attr("transform", "translate(20,10)")
 
 
         svg
@@ -443,9 +507,9 @@ Promise.all([
             .attr('id', 'lineBox')
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) { return (y(d.key) + 0.125 * height) })
-            .attr("y2", function (d) { return (y(d.key) + 0.125 * height) })
-            .attr("stroke", "black")
+            .attr("y1", function (d) { return (y(d.key)+30) })
+            .attr("y2", function (d) { return (y(d.key)+30) })
+            .attr("stroke", "grey")
             .style("width", 40)
 
         var boxWidth = 50
@@ -456,11 +520,11 @@ Promise.all([
             .append("rect")
             .attr('id', 'boxBox')
             .attr("x", function (d) { return (x(d.value.q1)) })
-            .attr("y", function (d) { return (y(d.key) - boxWidth / 2) })
+            .attr("y", function (d) { return (y(d.key)+30 - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
-            .attr("stroke", "black")
-            .style("fill", "#69b3a2")
+            .attr("stroke", "grey")
+            .style("fill", "#bc5090")
             .on("mouseover", function (d) {
                 div.transition()
                     .duration(200)
@@ -488,16 +552,16 @@ Promise.all([
             .attr('id', 'medianBox')
             .attr("x1", function (d) { return (x(d.value.median)) })
             .attr("x2", function (d) { return (x(d.value.median)) })
-            .attr("y1", function (d) { return (y(d.key) - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key) + boxWidth / 2) })
-            .attr("stroke", "black")
+            .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
+            .attr("stroke", "grey")
             .style("width", 80)
 
     }
 
     function buildGraph(graph_data) {
-        var width = 500;
-        var height = 130;
+        width = 230;
+        height = 140;
 
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
@@ -508,15 +572,13 @@ Promise.all([
             .attr('id', 'graphViz')
             .attr("width", width)
             .attr("height", height)
-            .attr("transform",
-                "translate(0,20)")
+           .attr("transform","translate(0,20)")
             .append("g")
-            .attr("transform",
-                "translate(100,100)");
+            //.attr("transform",
+              //  "translate(50,50)");
 
         updateGraph(graph_data)
     }
-
 
     function updateGraph(graph_data) {
         var guy = parseInt($("#selectMath").select2('data')[0].id);
@@ -530,7 +592,7 @@ Promise.all([
         var simulation = d3.forceSimulation(nodes)
             .force("link", d3.forceLink(links).id(d => d.id))
             .force("charge", d3.forceManyBody().strength(-300))
-            .force("center", d3.forceCenter(500 / 2, 130 / 2));
+            .force("center", d3.forceCenter(230 / 2, 140 / 2));
 
         var svg = d3.select("#graphViz")
         var div = d3.select("div.tooltip")
@@ -560,7 +622,7 @@ Promise.all([
             .enter()
             .append("circle")
             .attr("r", 20)
-            .style("fill", "#69b3a2")
+            .style("fill", "#ffa600")
             .on("mouseover", function (d) {
                 div.transition()
                     .duration(200)
@@ -588,10 +650,9 @@ Promise.all([
         })
     }
 
-
     function updateHeatMap(data) {
-        width = 500;
-        height = 300;
+        width = 280;
+        height = 510;
 
 
 
@@ -610,6 +671,10 @@ Promise.all([
             }
         })
         dataHeat = dataHeat.filter(d => d.value > 0)
+        dataHeat = dataHeat.slice().sort(function(a,b){
+            return d3.descending(a.value,b.value)
+        })
+
         fields = [...new Set(dataHeat.map(item => item.field))]
         profs = [...new Set(dataHeat.map(item => item.prof))]
 
@@ -623,7 +688,6 @@ Promise.all([
         var x = d3.scaleBand()
             .domain(fields)
             .range([20, width - 20])
-            .domain(fields)
             .padding(0.01)
 
         d3.select("#xAxisHeat")
@@ -632,16 +696,17 @@ Promise.all([
             .attr("y", 0)
             .attr("x", 9)
             .attr("dy", ".35em")
-            .attr("transform", "rotate(-60)")
-            .style("text-anchor", "start");
+            .attr("transform", "translate(-10,10)rotate(-45)")
+            .style("text-anchor", "end")
+
 
         var myColor = d3.scaleLinear()
-            .range(["white", "#69b3a2"])
-            .domain([0, d3.max(dataHeat, d => +d.value)])
+        .range(["#e5ebee", "#003f5c"])
+        .domain([0, d3.max(dataHeat, d => +d.value)])
 
         // Build X scales and axis:
         var y = d3.scaleBand()
-            .range([20, height - 20])
+            .range([20, height - 60])
             .domain(profs)
             .padding(0.01);
 
@@ -652,11 +717,13 @@ Promise.all([
             .data(dataHeat, function (d) { return d.field + ':' + d.prof; })
             .enter()
             .append("rect")
-            .attr("x", function (d) { return x(d.field) })
+            .attr("x", function (d) { return x(d.field)+45 })
             .attr("y", function (d) { return y(d.prof) })
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", function (d) { return myColor(+d.value) })
+            .style("stroke", 'rgba(248,248,248,1)')
+            .style("stroke-width", 1)
             .on("mouseover", function (d) {
                 div.transition()
                     .duration(200)
@@ -674,12 +741,13 @@ Promise.all([
 
 
 
-
         svg.selectAll('rect')
-            .data(dataHeat)
+            .data(dataHeat.slice().sort(function(a,b){
+                return d3.descending(a.value,b.value)
+            }))
             .transition()
             .duration(500)
-            .attr("x", function (d) { return x(d.field) })
+            .attr("x", function (d) { return x(d.field)+45 })
             .attr("y", function (d) { return y(d.prof) })
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
@@ -697,11 +765,27 @@ Promise.all([
 
     function updateBoxplot(data) {
 
-        var width = 500
-        var height = 180
+
+        var width = 380
+        var height = 330
 
 
         var svg = d3.select("#boxplotViz")
+
+        var ages = data.map(function(d){
+            var obj = {};
+            obj.name = d.name;
+            obj.age = +d.age;
+            obj.won_award = d.won_award;
+            return obj
+        })
+
+
+        const uniqueAges = Array.from(new Set(ages.map(a => a.name)))
+         .map(name => {
+           return ages.find(a => a.name === name)
+         })
+
 
         var stats = d3.nest()
             .key(function (d) { return d.won_award })
@@ -710,17 +794,17 @@ Promise.all([
                 median = d3.quantile(d.map(g => g.age).sort(d3.ascending), .5)
                 q3 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .75)
                 interQuantileRange = q3 - q1
-                min = q1 - 1.5 * interQuantileRange
-                max = q3 + 1.5 * interQuantileRange
+                min = d3.min(d,g=>g.age)
+                max = d3.max(d,g=>g.age)
                 return ({ q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
             })
-            .entries(data)
+            .entries(uniqueAges)
 
-
+    
         // Show the X scale
         var x = d3.scaleLinear()
-            .range([0, width - 20])
-            .domain([30, 120])
+            .range([0, width - 40])
+            .domain([0, 120])
 
 
         d3.select("#xAxisBox")
@@ -728,7 +812,7 @@ Promise.all([
 
         var y = d3.scaleBand()
             .domain([0, 1])
-            .range([height, 0])
+            .range([height-40, 0])
             .paddingInner(0.6)
             .paddingOuter(.6)
 
@@ -742,8 +826,8 @@ Promise.all([
             .duration(500)
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) { return (y(d.key)) })
-            .attr("y2", function (d) { return (y(d.key)) })
+            .attr("y1", function (d) { return (y(d.key)+30) })
+            .attr("y2", function (d) { return (y(d.key)+30) })
             .attr("stroke", "black")
             .style("width", 40)
 
@@ -753,11 +837,11 @@ Promise.all([
             .transition()
             .duration(500)
             .attr("x", function (d) { return (x(d.value.q1)) })
-            .attr("y", function (d) { return (y(d.key) - boxWidth / 2) })
+            .attr("y", function (d) { return (y(d.key)+30 - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
             .attr("stroke", "black")
-            .style("fill", "#69b3a2")
+            .style("fill", "#bc5090")
 
         d3.selectAll("#medianBox")
             .data(stats)
@@ -765,12 +849,13 @@ Promise.all([
             .duration(500)
             .attr("x1", function (d) { return (x(d.value.median)) })
             .attr("x2", function (d) { return (x(d.value.median)) })
-            .attr("y1", function (d) { return (y(d.key) - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key) + boxWidth / 2) })
+            .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
 
     }
 
+    
 })
 

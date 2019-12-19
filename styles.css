@@ -1,123 +1,161 @@
-    body {
-        font-family: Helvetica, Arial, sans-serif
-    }
+body {font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 
+    sans-serif;
+    overflow: hidden;
+    background-color: rgba(248, 248, 248, 0.9);
+}
 
-    h1 {
-        background-color: #2a5599;
-        /* TODO 1
-        change the text to white and add a padding of 5px
-        2 lines of code
-        */
-        color:white;
-        padding: 5px;
-    }
-
-    /* TODO 2
-    Add code to show a black border of 1px around all SVGs elements in the page
-    1-3 lines of code
+h1 {
+    background-color: #2a5599;
+    /* TODO 1
+    change the text to white and add a padding of 5px
+    2 lines of code
     */
+    color:white;
+    padding: 5px;
+}
 
-    div {
-        padding: 10px;
-   /*      border-color: #2a5599;
-        border-style: solid; */
-        overflow:auto;
-    }
+/* TODO 2
+Add code to show a black border of 1px around all SVGs elements in the page
+1-3 lines of code
+*/
 
-    h2 {
-        position: absolute;
-        top:0;
-        left:0;
-        margin: 0;
-    }
+div {
+    padding: 10px;
+/*      border-color: #2a5599;
+    border-style: solid; */
+    overflow:auto;
+}
 
-    h3 {
-        position: absolute;
-        top:0;
-        left:0;
-        margin: 0;
-    }
+.axis line{
+    stroke:gray;
 
-    svg {
-        position:absolute;
-        border-style: solid;
-        border-color:#dddddd;
-        border-width: 0.5px;
-    }
+}
 
+.axis path{
+    stroke:gray;
 
-    #selectCountries {
+}
 
-        width: 200px;
-    }
+.axis text{
+    fill:gray;
+}
+h2 {
+    position: absolute;
+    top:0;
+    left:0;
+    margin: 0;
+}
 
+h3 {
+    position: absolute;
+    top:0;
+    left:0;
+    margin: 0;
+}
 
-    #overtime {
-        position: absolute;
-        top:0px;
-        right: 5px;
-        width:500px;
-        height: 150px;
-
-    }
-    #map {
-        position: absolute;
-        top:0px;
-        left:0px;
-        width:500px;
-        height: 250px;
-
-    }
-    #countries {
-        position: absolute;
-        top:0px;
-        left:570px;
-        width:200px;
-        height: 700px;
-
-    }
-
-    #mathematicians {
-        position: absolute;
-        top:280px;
-        left:570px;
-        width:200px;
-        height: 700px;
-
-    }
-    #heatmap {
-        position: absolute;
-        top:280px;
-        left:0px;
-        height: 320px;
-        width: 500px;
-    }
-
-    #boxplot {
-        position: absolute;
-        top:180px;
-        right: 5px;
-        width:500px;
-        height: 200px;
-    }
-
-    #graph {
-        position: absolute;
-        top:410px;
-        right: 5px;
-        width:500px;
-        height: 150px;
-    }
+svg {
+    position:absolute;
+    border-style: solid;
+    border-color: gray;
+    border-width: 0.5px;
+    border-radius: 4px;
+    background-color: white;
+}
 
 
-    div.tooltip {
-        position: absolute;
-        text-align: center;
-        padding: 2px;
-        font: 12px sans-serif;
-        color:white;
-        background: rgba(0,0,0,0.8);
-        border: 0px;
-        border-radius: 4px;
-        pointer-events: none;
-    }
+
+
+
+#overtime {
+    position: absolute;
+    top:410px;
+    left: 330px;
+    width:450px;
+    height: 150px;
+
+}
+#map {
+    position: absolute;
+    top:150px;
+    left:330px;
+    width:450px;
+    height: 250px;
+
+}
+#countries {
+    position: absolute;
+    top:20px;
+    left:330px;
+    width:150px;
+    height: 700px;
+
+}
+
+#mathematicians {
+    position: absolute;
+    top:20px;
+    left:670px;
+    width:150px;
+    height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#boxplotChoice {
+    position: absolute;
+    top:20px;
+    left:820px;
+    width:150px;
+    height: 30px;
+
+}
+
+#resetButton {
+    position: absolute;
+    top:30px;
+    left:500px;
+    width:150px;
+    height: 30px;
+    background-color: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: pointer;
+
+}
+
+#heatmap {
+    position: absolute;
+    top:20px;
+    left:10px;
+    height: 550px;
+    width: 310px;
+}
+
+#boxplot {
+    position: absolute;
+    top:200px;
+    right: 5px;
+    width:400px;
+    height: 350px;
+}
+
+#graph {
+    position: absolute;
+    top:20px;
+    right: 5px;
+    width: 250px;
+    height: 180px;
+}
+
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 2px;
+    font: 12px sans-serif;
+    color:white;
+    background: rgba(0,0,0,0.8);
+    border: 0px;
+    border-radius: 4px;
+    pointer-events: none;
+}
