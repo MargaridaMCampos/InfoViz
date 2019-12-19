@@ -72,9 +72,9 @@ Promise.all([
             .text(d => countryMap[d])
             .attr('value', d => d)
     }
-  
 
-    
+
+
 
     $("#selectCountries")
         .select2()
@@ -172,7 +172,7 @@ Promise.all([
 
 
         container
-            .call(d3.zoom().scaleExtent([0.5, 7]) 
+            .call(d3.zoom().scaleExtent([0.5, 7])
             .extent([[0, 0], [widthMap, heightMap]]).on("zoom", function () {
                 container.selectAll("path").attr("transform", d3.event.transform)
             }))
@@ -420,11 +420,11 @@ Promise.all([
             }else {
                  filters.fields = this.textContent;
             }
-        
+
         updateBoxplot(filterData(data,filters))
         updateMap(filterData(data,filters),geoJSON)
 
-        
+
         }
 
     }
@@ -443,7 +443,7 @@ Promise.all([
             .attr("width", width)
             .attr("height", height)
             .attr("transform", "translate(0,20)")
-        
+
         var ages = data.map(function(d){
             var obj = {};
             obj.name = d.name;
@@ -609,16 +609,18 @@ Promise.all([
             .exit()
             .remove()
 
-        var link = svg
+        svg
             .selectAll("line")
-            .data(links)
+            .data(links, d => d.id)
             .enter()
             .append("line")
             .style("stroke", "#aaa")
 
-        var node = svg
+        var link = svg.selectAll("line")
+
+        svg
             .selectAll("circle")
-            .data(nodes)
+            .data(nodes, d => d.id)
             .enter()
             .append("circle")
             .attr("r", 20)
@@ -636,6 +638,8 @@ Promise.all([
                     .duration(500)
                     .style("opacity", 0);
             });
+
+        var node = svg.selectAll("circle")
 
         simulation.on("tick", () => {
             link
@@ -800,7 +804,7 @@ Promise.all([
             })
             .entries(uniqueAges)
 
-    
+
         // Show the X scale
         var x = d3.scaleLinear()
             .range([0, width - 40])
@@ -856,6 +860,6 @@ Promise.all([
 
     }
 
-    
+
 })
 
