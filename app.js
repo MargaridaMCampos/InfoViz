@@ -34,6 +34,7 @@ Promise.all([
 
         $('.js-example-basic-single').select2({ theme: "classic" })
         buildGraph(graph_data);
+        buildOverTime(filterData(dataComplete, filters), geoJSON);
 
     });
 
@@ -50,7 +51,6 @@ Promise.all([
     listCountries(filters)
     buildMap(filterData(dataComplete, filters), geoJSON);
     updateMap(filterData(dataComplete, filters), geoJSON);
-    buildOverTime(filterData(dataComplete, filters), geoJSON);
     buildHeatMap(filterData(dataComplete, filters));
     updateHeatMap(filterData(dataComplete, filters));
     buildBoxplot(filterData(dataComplete, filters),'won_award');
@@ -105,6 +105,7 @@ Promise.all([
         .on("select2:select", function (e) {
 
             updateGraph(graph_data)
+            updateOverTime(filterData(dataComplete, filters))
 
         })
 
@@ -286,9 +287,40 @@ Promise.all([
             })
     }
 
+    function updateOverTime(data) {
+        var birthsTime = d3.nest()
+        .key(d => +d.birth)
+        .rollup(function (d) {
+            return d3.sum(d, function (g) { return 1 })
+        }).entries(data)
+        .map(function (row) {
+            return { decade: row.key, n: row.value }
+        })
+        .sort((a, b) => d3.ascending(a.decade, b.decade));
+
+        var guy = $("#selectMath").select2('data')[0].text;
+        var year = parseInt(dataComplete.filter(e=>e.name == guy)[0].birth)
+        let widthOvertime = 450;
+
+        let xTimeScale = d3.scaleLinear()
+        .domain(d3.extent(birthsTime, d => +d.decade))
+        .range([0, widthOvertime-40])
+
+        var containerOvertime = d3.select('#overtime svg')
+
+        containerOvertime
+            .select("circle")
+            .transition()
+            .duration(500)
+            .ease(d3.easeLinear)
+            .attr("cx", xTimeScale(year) + 30)
+            .attr("cy", 100)
+            .attr("r", 5)
+            .style('fill', '#153F5A')
+
+    }
+
     function buildOverTime(data, geoJSON) {
-
-
         var birthsTime = d3.nest()
             .key(d => +d.birth)
             .rollup(function (d) {
@@ -297,7 +329,8 @@ Promise.all([
             .map(function (row) {
                 return { decade: row.key, n: row.value }
             })
-            .sort((a, b) => d3.ascending(a.decade, b.decade))
+            .sort((a, b) => d3.ascending(a.decade, b.decade));
+
         let widthOvertime = 450;
         let heightOvertime = 140;
 
@@ -366,6 +399,11 @@ Promise.all([
             .attr("stroke-linecap", "round")
             .attr("d", line)
 
+        containerOvertime
+            .append("circle")
+            .attr("cx", 30)
+            .attr("cy", 100)
+            .attr("r", 5)
 
         containerOvertime
             .append("g")
@@ -375,7 +413,7 @@ Promise.all([
 
         containerOvertime
             .append("g")
-            .call(d3.axisBottom(xTimeScale))
+            .call(d3.axisBottom(xTimeScale).tickFormat(d3.format("")))
             .attr('class','axis')
             .attr('transform','translate(30,100)')
 
@@ -384,6 +422,7 @@ Promise.all([
             .attr('class', 'brush')
             .call(brush)
 
+        updateOverTime(data)
     }
 
     function buildHeatMap(data) {
