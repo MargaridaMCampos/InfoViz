@@ -132,12 +132,12 @@ Promise.all([
         var mathematicians = new Set(filterData(dataComplete,filters).map(d=>d.name))
 
         options = d3.select("#selectMath")
- 
+
         options
             .selectAll("option")
             .data(nodes.filter(e=>mathematicians.has(e.name)))
             .exit()
-            .remove()    
+            .remove()
 
         options
             .selectAll("option")
@@ -493,7 +493,7 @@ Promise.all([
             .attr("class", "axis")
             .attr("transform", "translate(20,10)")
 
-            
+
     }
 
     function buildGraph(graph_data) {
@@ -746,6 +746,7 @@ Promise.all([
             .entries(uniqueAges)
 
         var boxWidth = height/(uniqueVariable.length+1)-10;
+        var heightDiff = (height-40) / (stats.length * 2) + 10
 
         // Show the X scale
         var x = d3.scaleLinear()
@@ -759,8 +760,7 @@ Promise.all([
         var y = d3.scaleBand()
             .domain(uniqueVariable)
             .range([height-40, 0])
-            .paddingInner(0.6)
-            .paddingOuter(.6)
+
 
         d3.select("#yAxisBox")
             .call(d3.axisLeft(y))
@@ -787,8 +787,8 @@ Promise.all([
             .attr('class', 'vertLine')
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) { return (y(d.key)+30) })
-            .attr("y2", function (d) { return (y(d.key)+30) })
+            .attr("y1", function (d) { return (y(d.key)+heightDiff) })
+            .attr("y2", function (d) { return (y(d.key)+heightDiff) })
             .attr("stroke", "black")
             .style("width", 40)
 
@@ -799,7 +799,7 @@ Promise.all([
             .enter()
             .append('rect')
             .attr("x", function (d) { return (x(d.value.q1)) })
-            .attr("y", function (d) { return (y(d.key)+30 - boxWidth / 2) })
+            .attr("y", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
             .attr("stroke", "black")
@@ -813,8 +813,8 @@ Promise.all([
             .attr('class', 'medianLine')
             .attr("x1", function (d) { return (x(d.value.median)) })
             .attr("x2", function (d) { return (x(d.value.median)) })
-            .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
+            .attr("y1", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
 
@@ -825,8 +825,8 @@ Promise.all([
             .duration(500)
             .attr("x1", function (d) { return (x(d.value.min)) })
             .attr("x2", function (d) { return (x(d.value.max)) })
-            .attr("y1", function (d) { return (y(d.key)+30) })
-            .attr("y2", function (d) { return (y(d.key)+30) })
+            .attr("y1", function (d) { return (y(d.key)+heightDiff) })
+            .attr("y2", function (d) { return (y(d.key)+heightDiff) })
             .attr("stroke", "black")
             .style("width", 40)
 
@@ -836,12 +836,12 @@ Promise.all([
             .transition()
             .duration(500)
             .attr("x", function (d) { return (x(d.value.q1)) })
-            .attr("y", function (d) { return (y(d.key)+30 - boxWidth / 2) })
+            .attr("y", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
             .attr("stroke", "black")
             .style("fill", "#bc5090")
-            
+
             svg.selectAll('rect')
             .on("mouseover", function (d) {
                 div.transition()
@@ -868,8 +868,8 @@ Promise.all([
             .duration(500)
             .attr("x1", function (d) { return (x(d.value.median)) })
             .attr("x2", function (d) { return (x(d.value.median)) })
-            .attr("y1", function (d) { return (y(d.key)+30 - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key)+30 + boxWidth / 2) })
+            .attr("y1", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
 
@@ -892,7 +892,7 @@ Promise.all([
                 return { decade: row.key, n: row.value }
             })
             .sort((a, b) => d3.ascending(a.decade, b.decade))
-            
+
 
         let xTimeScale = scales.xTime
         let yTimeScale = scales.yTime

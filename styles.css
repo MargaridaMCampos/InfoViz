@@ -1,4 +1,4 @@
-body {font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 
+body {font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
     sans-serif;
     overflow: hidden;
     background-color: rgba(248, 248, 248, 0.9);
@@ -87,7 +87,6 @@ svg {
     top:20px;
     left:330px;
     width:150px;
-    height: 700px;
 
 }
 
