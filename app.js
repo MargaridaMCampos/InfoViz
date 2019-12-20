@@ -37,7 +37,7 @@ Promise.all([
         buildOverTime(filterData(dataComplete, filters), geoJSON);
         buildHeatMap(filterData(dataComplete, filters));
         buildMap(filterData(dataComplete, filters), geoJSON);
-        buildBoxplot(filterData(dataComplete, filters),'won_award');
+        buildBoxplot(filterData(dataComplete, filters), 'won_award');
         updateAll();
     });
 
@@ -76,10 +76,10 @@ Promise.all([
             .attr('value', d => d)
     }
 
-    function updateAll () {
+    function updateAll() {
         buildSelects(filterMapData(dataComplete, filters));
         updateHeatMap(filterData(dataComplete, filters))
-        updateBoxplot(filterData(dataComplete, filters),'won_award')
+        updateBoxplot(filterData(dataComplete, filters), 'won_award')
         updateMap(filterMapData(dataComplete, filters), geoJSON);
         updateOverTime(filterData(dataComplete, filters))
         updateGraph(graph_data)
@@ -103,58 +103,58 @@ Promise.all([
             updateAll()
         })
 
-        $("#selectProfessions")
+    $("#selectProfessions")
         .select2()
         .on("select2:select", function (e) {
-            filters.professions= $("#selectProfessions").select2('data').map(d => d.id)
+            filters.professions = $("#selectProfessions").select2('data').map(d => d.id)
             updateAll()
         })
         .on("select2:unselect", function (e) {
-            filters.professions= $("#selectProfessions").select2('data').map(d => d.id)
+            filters.professions = $("#selectProfessions").select2('data').map(d => d.id)
             updateAll()
         })
 
     $("#selectBoxplot")
-    .select2()
-    .on("select2:select", function (e) {
+        .select2()
+        .on("select2:select", function (e) {
 
-        var variable = $('#selectBoxplot').select2('data')[0].id;
+            var variable = $('#selectBoxplot').select2('data')[0].id;
 
-        updateBoxplot(filterData(dataComplete,filters),variable)
+            updateBoxplot(filterData(dataComplete, filters), variable)
 
-    })
+        })
 
     var uniqueValues = {}
 
-    uniqueValues.fields =  [...new Set(dataComplete.map(item => item.field))]
+    uniqueValues.fields = [...new Set(dataComplete.map(item => item.field))]
     uniqueValues.profs = [...new Set(dataComplete.map(item => item.profession))]
 
-    var colors =_.zipObject(uniqueValues.fields,
-        ["#2f4b7c","#665191","#a05195","#d45087","#f95d6a","#ff7c43","#ffa600"])
+    var colors = _.zipObject(uniqueValues.fields,
+        ["#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"])
 
 
     function listMath(nodes) {
 
-        var mathematicians = new Set(filterData(dataComplete,filters).map(d=>d.name))
+        var mathematicians = new Set(filterData(dataComplete, filters).map(d => d.name))
 
         options = d3.select("#selectMath")
 
         options
             .selectAll("option")
-            .data(nodes.filter(e=>mathematicians.has(e.name)))
+            .data(nodes.filter(e => mathematicians.has(e.name)))
             .exit()
             .remove()
 
         options
             .selectAll("option")
-            .data(nodes.filter(e=>mathematicians.has(e.name)))
+            .data(nodes.filter(e => mathematicians.has(e.name)))
             .enter()
             .append('option')
         options
             .selectAll("option")
-            .data(nodes.filter(e=>mathematicians.has(e.name)))
+            .data(nodes.filter(e => mathematicians.has(e.name)))
             .text(d => d.name)
-            .attr('value',d=>d.id)
+            .attr('value', d => d.id)
     }
 
     function baseFilters(data) {
@@ -222,9 +222,9 @@ Promise.all([
 
         container
             .call(d3.zoom().scaleExtent([0.5, 7])
-            .extent([[0, 0], [widthMap, heightMap]]).on("zoom", function () {
-                container.selectAll("path").attr("transform", d3.event.transform)
-            }))
+                .extent([[0, 0], [widthMap, heightMap]]).on("zoom", function () {
+                    container.selectAll("path").attr("transform", d3.event.transform)
+                }))
             .selectAll("path")
             .data(geoJSON.features, d => d.id)
             .enter()
@@ -309,22 +309,22 @@ Promise.all([
 
     function updateOverTime(data) {
         var birthsTime = d3.nest()
-        .key(d => +d.birth)
-        .rollup(function (d) {
-            return d3.sum(d, function (g) { return 1 })
-        }).entries(data)
-        .map(function (row) {
-            return { decade: row.key, n: row.value }
-        })
-        .sort((a, b) => d3.ascending(a.decade, b.decade));
+            .key(d => +d.birth)
+            .rollup(function (d) {
+                return d3.sum(d, function (g) { return 1 })
+            }).entries(data)
+            .map(function (row) {
+                return { decade: row.key, n: row.value }
+            })
+            .sort((a, b) => d3.ascending(a.decade, b.decade));
 
         var guy = $("#selectMath").select2('data')[0].text;
-        var year = parseInt(dataComplete.filter(e=>e.name == guy)[0].birth)
+        var year = parseInt(dataComplete.filter(e => e.name == guy)[0].birth)
         let widthOvertime = 450;
 
         let xTimeScale = d3.scaleLinear()
-        .domain(d3.extent(birthsTime, d => +d.decade))
-        .range([0, widthOvertime-40])
+            .domain(d3.extent(birthsTime, d => +d.decade))
+            .range([0, widthOvertime - 40])
 
         var containerOvertime = d3.select('#overtime svg')
 
@@ -359,20 +359,20 @@ Promise.all([
             .attr("width", widthOvertime)
             .attr("height", heightOvertime)
             .attr("transform", "translate(0,20)")
-            .attr('id',"overtimeViz")
+            .attr('id', "overtimeViz")
 
         var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         let xTimeScale = d3.scaleLinear()
             .domain(d3.extent(birthsTime, d => +d.decade))
-            .range([0, widthOvertime-40])
+            .range([0, widthOvertime - 40])
 
 
         let yTimeScale = d3.scaleLinear()
             .domain([0, d3.max(birthsTime, d => +d.n)])
-            .range([heightOvertime-40, 0])
+            .range([heightOvertime - 40, 0])
 
         scales.xTime = xTimeScale
         scales.yTime = yTimeScale
@@ -380,10 +380,10 @@ Promise.all([
         var line = d3.line()
             .defined(d => !isNaN(d.n))
             .x(function (d) {
-                return xTimeScale(+d.decade)+30
+                return xTimeScale(+d.decade) + 30
             })
             .y(function (d) {
-                return yTimeScale(+d.n)+0
+                return yTimeScale(+d.n) + 0
             })
 
         var filterTime = {}
@@ -428,22 +428,22 @@ Promise.all([
         containerOvertime
             .append("g")
             .call(d3.axisLeft(yTimeScale))
-            .attr('class','axis')
-            .attr('transform','translate(30,0)')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(30,0)')
 
-                    // X Title
+        // X Title
         containerOvertime.append("text")
-            .attr('class','axisTitle')
+            .attr('class', 'axisTitle')
             .attr("text-anchor", "end")
             .attr("x", width)
-            .attr("y", height-10 )
+            .attr("y", height - 10)
             .text("Decade");
 
         containerOvertime
             .append("g")
             .call(d3.axisBottom(xTimeScale).tickFormat(d3.format("")))
-            .attr('class','axis')
-            .attr('transform','translate(30,100)')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(30,100)')
 
         containerOvertime
             .append("g")
@@ -476,7 +476,7 @@ Promise.all([
 
         dataHeat = dataHeat.filter(d => d.value > 20)
 
-        fields =  [...new Set(dataComplete.map(item => item.field))]
+        fields = [...new Set(dataComplete.map(item => item.field))]
         profs = [...new Set(dataComplete.map(item => item.profession))]
 
         var div = d3.select("body").append("div")
@@ -518,7 +518,7 @@ Promise.all([
             .call(d3.axisLeft(y));
     }
 
-    function buildBoxplot(data,variable) {
+    function buildBoxplot(data, variable) {
         var width = 420
         var height = 350
 
@@ -529,31 +529,31 @@ Promise.all([
             .attr("height", height)
             .attr("transform", "translate(0,20)")
 
-            svg.append("g")
+        svg.append("g")
             .attr("id", "xAxisBox")
             .attr("class", "axis")
             .attr("transform", "translate(70,300)")
 
-            // X Title
-            svg.append("text")
-            .attr('class','axisTitle')
+        // X Title
+        svg.append("text")
+            .attr('class', 'axisTitle')
             .attr("text-anchor", "end")
-            .attr("x", width/2+20)
-            .attr("y", height-15 )
+            .attr("x", width / 2 + 20)
+            .attr("y", height - 15)
             .text("Age");
-            svg
+        svg
             .append("g")
             .attr("id", "yAxisBox")
             .attr("class", "axis")
             .attr("transform", "translate(70,10)")
 
-            svg
+        svg
             .append('circle')
-            .attr('id','circleBox')
-            .attr('r',4)
-            .attr('fill','#f95d6a')
-            .attr('cx',d=>0)
-            .attr('cy',d=>0)
+            .attr('id', 'circleBox')
+            .attr('r', 4)
+            .attr('fill', '#f95d6a')
+            .attr('cx', d => 0)
+            .attr('cy', d => 0)
 
 
 
@@ -573,10 +573,10 @@ Promise.all([
             .attr('id', 'graphViz')
             .attr("width", width)
             .attr("height", height)
-           .attr("transform","translate(0,20)")
+            .attr("transform", "translate(0,20)")
             .append("g")
-            //.attr("transform",
-              //  "translate(50,50)");
+        //.attr("transform",
+        //  "translate(50,50)");
 
         updateGraph(graph_data)
     }
@@ -660,9 +660,9 @@ Promise.all([
         height = 510;
 
         var guy = $("#selectMath").select2('data')[0].text;
-        var lines = dataComplete.filter(e=>e.name == guy)
-        var guy_fields = lines.reduce((acc, e) => {acc.add(e.field); return acc;}, new Set)
-        var guy_professions = lines.reduce((acc, e) => {acc.add(e.profession); return acc;}, new Set)
+        var lines = dataComplete.filter(e => e.name == guy)
+        var guy_fields = lines.reduce((acc, e) => { acc.add(e.field); return acc; }, new Set)
+        var guy_professions = lines.reduce((acc, e) => { acc.add(e.profession); return acc; }, new Set)
 
         var dic = data.reduce((acc, guy) => {
             let key = guy.field + ':' + guy.profession;
@@ -679,8 +679,8 @@ Promise.all([
             }
         })
         dataHeat = dataHeat.filter(d => d.value > 0)
-        dataHeat = dataHeat.slice().sort(function(a,b){
-            return d3.descending(a.value,b.value)
+        dataHeat = dataHeat.slice().sort(function (a, b) {
+            return d3.descending(a.value, b.value)
         })
 
         fields = [...new Set(dataHeat.map(item => item.field))]
@@ -709,8 +709,8 @@ Promise.all([
 
 
         var myColor = d3.scaleLinear()
-        .range(["#e5ebee", "#003f5c"])
-        .domain([0, d3.max(dataHeat, d => +d.value)])
+            .range(["#e5ebee", "#003f5c"])
+            .domain([0, d3.max(dataHeat, d => +d.value)])
 
         // Build X scales and axis:
         var y = d3.scaleBand()
@@ -725,7 +725,7 @@ Promise.all([
             .data(dataHeat, function (d) { return d.field + ':' + d.prof; })
             .enter()
             .append("rect")
-            .attr("x", function (d) { return x(d.field)+45 })
+            .attr("x", function (d) { return x(d.field) + 45 })
             .attr("y", function (d) { return y(d.prof) })
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
@@ -749,12 +749,12 @@ Promise.all([
 
 
         svg.selectAll('rect')
-            .data(dataHeat.slice().sort(function(a,b){
-                return d3.descending(a.value,b.value)
+            .data(dataHeat.slice().sort(function (a, b) {
+                return d3.descending(a.value, b.value)
             }))
             .transition()
             .duration(500)
-            .attr("x", function (d) { return x(d.field)+45 })
+            .attr("x", function (d) { return x(d.field) + 45 })
             .attr("y", function (d) { return y(d.prof) })
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
@@ -771,39 +771,39 @@ Promise.all([
 
         d3.selectAll(".tick text").on("click", axisClick);
 
-            function axisClick(){
+        function axisClick() {
 
-                var x = this.getAttribute("x")
+            var x = this.getAttribute("x")
 
-                if(x == -9){
-                    $("#selectProfessions").val(this.textContent)
-                    $('#selectProfessions').trigger('change');
-                    $('#selectProfessions').trigger('select2:select');
-                }else {
-                     filters.fields = this.textContent;
-                }
-                updateAll()
+            if (x == -9) {
+                $("#selectProfessions").val(this.textContent)
+                $('#selectProfessions').trigger('change');
+                $('#selectProfessions').trigger('select2:select');
+            } else {
+                filters.fields = this.textContent;
             }
+            updateAll()
+        }
 
 
 
     }
 
-    function updateBoxplot(data,variable) {
+    function updateBoxplot(data, variable) {
 
         var width = 420
         var height = 350
 
-console.log($("#selectMath").select2('data')[0].text)
+        console.log($("#selectMath").select2('data')[0].text)
         var guy = $("#selectMath").select2('data')[0].text
 
-        var guyAge = +data.filter(d=>d.name == guy)[0].age
-        var guyVariable = data.filter(d=>d.name == guy)[0][variable]
+        var guyAge = +data.filter(d => d.name == guy)[0].age
+        var guyVariable = data.filter(d => d.name == guy)[0][variable]
 
         console.log(guyVariable)
         var svg = d3.select("#boxplotViz")
 
-        var ages = data.map(function(d){
+        var ages = data.map(function (d) {
             var obj = {};
             obj.name = d.name;
             obj.age = +d.age;
@@ -816,9 +816,9 @@ console.log($("#selectMath").select2('data')[0].text)
             .style("opacity", 0);
 
         const uniqueAges = Array.from(new Set(ages.map(a => a.name)))
-         .map(name => {
-           return ages.find(a => a.name === name)
-         })
+            .map(name => {
+                return ages.find(a => a.name === name)
+            })
 
         var uniqueVariable = [...new Set(uniqueAges.map(item => item.variable))]
 
@@ -831,14 +831,14 @@ console.log($("#selectMath").select2('data')[0].text)
                 median = d3.quantile(d.map(g => g.age).sort(d3.ascending), .5)
                 q3 = d3.quantile(d.map(g => g.age).sort(d3.ascending), .75)
                 interQuantileRange = q3 - q1
-                min = d3.min(d,g=>g.age)
-                max = d3.max(d,g=>g.age)
+                min = d3.min(d, g => g.age)
+                max = d3.max(d, g => g.age)
                 return ({ q1: q1, median: median, q3: q3, interQuantileRange: interQuantileRange, min: min, max: max })
             })
             .entries(uniqueAges)
 
-        var boxWidth = height/(uniqueVariable.length+1)-10;
-        var heightDiff = (height-40) / (stats.length * 2) + 10
+        var boxWidth = height / (uniqueVariable.length + 1) - 10;
+        var heightDiff = (height - 40) / (stats.length * 2) + 10
 
         // Show the X scale
         var x = d3.scaleLinear()
@@ -851,7 +851,7 @@ console.log($("#selectMath").select2('data')[0].text)
 
         var y = d3.scaleBand()
             .domain(uniqueVariable)
-            .range([height-60, 0])
+            .range([height - 60, 0])
 
 
         d3.select("#yAxisBox")
@@ -877,10 +877,10 @@ console.log($("#selectMath").select2('data')[0].text)
             .enter()
             .append('line')
             .attr('class', 'vertLine')
-            .attr("x1", function (d) { return (x(d.value.min))+15 })
-            .attr("x2", function (d) { return (x(d.value.max))+15 })
-            .attr("y1", function (d) { return (y(d.key)+heightDiff) })
-            .attr("y2", function (d) { return (y(d.key)+heightDiff) })
+            .attr("x1", function (d) { return (x(d.value.min)) + 15 })
+            .attr("x2", function (d) { return (x(d.value.max)) + 15 })
+            .attr("y1", function (d) { return (y(d.key) + heightDiff) })
+            .attr("y2", function (d) { return (y(d.key) + heightDiff) })
             .attr("stroke", "black")
             .style("width", 40)
 
@@ -890,34 +890,34 @@ console.log($("#selectMath").select2('data')[0].text)
             .data(stats)
             .enter()
             .append('rect')
-            .attr("x", function (d) { return (x(d.value.q1))+15 })
-            .attr("y", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
+            .attr("x", function (d) { return (x(d.value.q1)) + 15 })
+            .attr("y", function (d) { return (y(d.key) + heightDiff - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
             .attr("stroke", "black")
             .style("fill", "#bc5090")
 
 
-            svg.selectAll("line.medianLine")
+        svg.selectAll("line.medianLine")
             .data(stats)
             .enter()
             .append('line')
             .attr('class', 'medianLine')
-            .attr("x1", function (d) { return (x(d.value.median))+65 })
-            .attr("x2", function (d) { return (x(d.value.median))+65 })
-            .attr("y1", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
+            .attr("x1", function (d) { return (x(d.value.median)) + 65 })
+            .attr("x2", function (d) { return (x(d.value.median)) + 65 })
+            .attr("y1", function (d) { return (y(d.key) + heightDiff - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key) + heightDiff + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
 
         svg
-        .select("#circleBox")
-        .attr('r',4)
-        .attr('fill','#f95d6a')
-        .attr('cx',d=>x(guyAge)+65)
-        .attr('cy',d=>y(guyVariable)+heightDiff)
-        .attr('stroke','white')
-        .raise()
+            .select("#circleBox")
+            .attr('r', 4)
+            .attr('fill', '#f95d6a')
+            .attr('cx', d => x(guyAge) + 65)
+            .attr('cy', d => y(guyVariable) + heightDiff)
+            .attr('stroke', 'white')
+            .raise()
 
 
 
@@ -925,26 +925,26 @@ console.log($("#selectMath").select2('data')[0].text)
             .data(stats)
             .transition()
             .duration(500)
-            .attr("x1", function (d) { return (x(d.value.min))+65 })
-            .attr("x2", function (d) { return (x(d.value.max))+65 })
-            .attr("y1", function (d) { return (y(d.key)+heightDiff) })
-            .attr("y2", function (d) { return (y(d.key)+heightDiff) })
+            .attr("x1", function (d) { return (x(d.value.min)) + 65 })
+            .attr("x2", function (d) { return (x(d.value.max)) + 65 })
+            .attr("y1", function (d) { return (y(d.key) + heightDiff) })
+            .attr("y2", function (d) { return (y(d.key) + heightDiff) })
             .attr("stroke", "black")
             .style("width", 40)
 
 
-            svg.selectAll("rect")
+        svg.selectAll("rect")
             .data(stats)
             .transition()
             .duration(500)
-            .attr("x", function (d) { return (x(d.value.q1))+65 })
-            .attr("y", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
+            .attr("x", function (d) { return (x(d.value.q1)) + 65 })
+            .attr("y", function (d) { return (y(d.key) + heightDiff - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
             .attr("stroke", "black")
             .style("fill", "#bc5090")
 
-            svg.selectAll('rect')
+        svg.selectAll('rect')
             .on("mouseover", function (d) {
                 div.transition()
                     .duration(200)
@@ -968,17 +968,17 @@ console.log($("#selectMath").select2('data')[0].text)
             .data(stats)
             .transition()
             .duration(500)
-            .attr("x1", function (d) { return (x(d.value.median)+65) })
-            .attr("x2", function (d) { return (x(d.value.median)+65) })
-            .attr("y1", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
-            .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
+            .attr("x1", function (d) { return (x(d.value.median) + 65) })
+            .attr("x2", function (d) { return (x(d.value.median) + 65) })
+            .attr("y1", function (d) { return (y(d.key) + heightDiff - boxWidth / 2) })
+            .attr("y2", function (d) { return (y(d.key) + heightDiff + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
 
 
     }
 
-    function buildLine(data,filter){
+    function buildLine(data, filter) {
 
         let widthOvertime = 450;
         let heightOvertime = 140;
@@ -1004,10 +1004,10 @@ console.log($("#selectMath").select2('data')[0].text)
         var line = d3.line()
             .defined(d => !isNaN(d.n))
             .x(function (d) {
-                return xTimeScale(+d.decade)+30
+                return xTimeScale(+d.decade) + 30
             })
             .y(function (d) {
-                return yTimeScale(+d.n)+0
+                return yTimeScale(+d.n) + 0
             })
 
         svg
