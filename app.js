@@ -32,7 +32,7 @@ Promise.all([
     $(document).ready(function () {
         $('.js-example-basic-single').select2({ theme: "classic" })
         buildSelects(filters);
-        $('#selectMath').val('1632');
+        $('#selectMath').val('686');
         buildGraph(graph_data);
         buildOverTime(filterData(dataComplete, filters), geoJSON);
         buildHeatMap(filterData(dataComplete, filters));
