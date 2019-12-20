@@ -287,7 +287,52 @@ Promise.all([
                     .style("opacity", 0);
             })
 
+        var defs = container.append("defs");
 
+        var gradient = defs.append("linearGradient")
+            .attr("id", "mapGradient")
+            .attr("x1", "0%")
+            .attr("x2", "0%")
+            .attr("y1", "0%")
+            .attr("y2", "100%");
+
+        gradient.append("stop")
+            .attr('class', 'start')
+            .attr("offset", "0%")
+            .attr("stop-color", "#003f5c")
+            .attr("stop-opacity", 1);
+
+        gradient.append("stop")
+            .attr('class', 'end')
+            .attr("offset", "100%")
+            .attr("stop-color", "white")
+            .attr("stop-opacity", 1);
+
+        var scale = container.append("g")
+            .attr('id', 'colorscale')
+            .attr('transform', 'translate(420,135)')
+            .attr('font-size', 10)
+            .raise()
+
+        scale
+            .append('rect')
+            .attr('width', 20).attr('height', 70)
+            .attr('fill', 'url(#mapGradient)')
+            .attr('stroke', 'white')
+
+        scale
+            .append('text')
+            .attr('id', 'maxVal')
+            .style("text-anchor", "middle")
+            .text(100)
+            .attr('x', 10).attr('y', -3)
+
+        scale
+            .append('text')
+            .attr('id', 'minVal')
+            .style("text-anchor", "middle")
+            .text(0)
+            .attr('x', 10).attr('y', 80)
 
         function clickMap(d) {
             countryName = d.properties.name;
@@ -329,6 +374,9 @@ Promise.all([
         var colorScale = d3.scaleLinear()
             .domain([0, d3.max(birthsCountry, d => +d.n)])
             .range(["white", "#003f5c"])
+
+        d3.select('text#maxVal')
+            .text(d3.max(birthsCountry, d => +d.n))
 
         var countries = $("#selectCountries").select2('data').map(d => d.id)
 
@@ -856,7 +904,6 @@ Promise.all([
 
         svg.select('#heatMapContent')
             .selectAll('rect')
-
             .data(dataHeat)
             .exit()
             .remove()
