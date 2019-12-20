@@ -310,7 +310,7 @@ Promise.all([
 
         var scale = container.append("g")
             .attr('id', 'colorscale')
-            .attr('transform', 'translate(420,135)')
+            .attr('transform', 'translate(10,145)')
             .attr('font-size', 10)
             .raise()
 
