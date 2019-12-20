@@ -37,7 +37,8 @@ Promise.all([
         buildOverTime(filterData(dataComplete, filters), geoJSON);
         buildHeatMap(filterData(dataComplete, filters));
         updateHeatMap(filterData(dataComplete, filters));
-
+        buildMap(filterData(dataComplete, filters), geoJSON);
+        updateMap(filterMapData(dataComplete, filters), geoJSON);
     });
 
     $(document).ready(function () {
@@ -51,15 +52,13 @@ Promise.all([
 
 
     listCountries(filters)
-    buildMap(filterData(dataComplete, filters), geoJSON);
-    updateMap(filterData(dataComplete, filters), geoJSON);
     buildBoxplot(filterData(dataComplete, filters),'won_award');
     updateBoxplot(filterData(dataComplete, filters),'won_award');
 
     function reset(){
         filters = baseFilters(dataComplete)
         listCountries(filters)
-        updateMap(filterData(dataComplete, filters), geoJSON);
+        updateMap(filterMapData(dataComplete, filters), geoJSON);
         updateHeatMap(filterData(dataComplete, filters));
         updateBoxplot(filterData(dataComplete, filters),'won_award');
 
@@ -87,6 +86,7 @@ Promise.all([
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
             updateHeatMap(filterData(dataComplete, filters))
             updateBoxplot(filterData(dataComplete, filters),'won_award')
+            updateMap(filterMapData(dataComplete, filters), geoJSON);
             listMath(graph_data.nodes)
 
         })
@@ -96,6 +96,7 @@ Promise.all([
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
             updateHeatMap(filterData(dataComplete, filters))
             updateBoxplot(filterData(dataComplete, filters),'won_award')
+            updateMap(filterMapData(dataComplete, filters), geoJSON);
             listMath(graph_data.nodes)
 
         })
@@ -166,7 +167,7 @@ Promise.all([
         return filters
     }
 
-    function filterData(data, filters) {
+    function filterDataMain(data, filters, bycountry) {
         minDecade = filters.dates[0];
         maxDecade = filters.dates[1];
         countries = filters.countries;
@@ -176,13 +177,21 @@ Promise.all([
 
         filtered = data.filter(function (d) {
 
-            res = (countries.includes(d.country) || countries.length == 0) &
+            res = (bycountry || countries.includes(d.country) || countries.length == 0) &
                 +d.birth <= maxDecade & +d.birth >= minDecade &
                 fields.includes(d.field) & professions.includes(d.profession)// &
             wonAward.includes(d.won_award)
             return res
         })
         return filtered
+    }
+
+    function filterMapData(data, filters) {
+        return filterDataMain(data, filters, true)
+    }
+
+    function filterData(data, filters) {
+        return filterDataMain(data, filters, false)
     }
 
     function buildMap(data, geoJSON) {
@@ -280,12 +289,22 @@ Promise.all([
             .domain([0, d3.max(birthsCountry, d => +d.n)])
             .range(["white", "#003f5c"])
 
+        var countries = $("#selectCountries").select2('data').map(d => d.id)
+        console.log(countries)
+
         d3.select("#mapViz")
             .selectAll("path")
             .data(geoJSON.features, d => d.id)
             .attr("fill", function (d) {
                 return colorScale(d.properties.births)
             })
+            .attr('stroke', "#ccc")
+            .classed('activated', d => countries.includes(d.id))
+
+        d3.select("#mapViz")
+            .selectAll("path.activated")
+            .attr("stroke", "black")
+            .raise()
     }
 
     function updateOverTime(data) {
