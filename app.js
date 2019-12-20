@@ -766,6 +766,10 @@ Promise.all([
                     .style("opacity", 0);
             });
 
+        svg
+            .selectAll("circle")
+            .style("fill", d=>{if(d.id == guy) return "#153F5A"; else return "#ffa600";})
+
         var node = svg.selectAll("circle")
 
         simulation.on("tick", () => {
