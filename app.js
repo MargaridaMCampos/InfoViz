@@ -489,7 +489,7 @@ Promise.all([
 
     function buildHeatMap(data) {
 
-        width = 300;
+        width = 340;
         height = 530;
 
         var dic = data.reduce((acc, guy) => {
@@ -536,10 +536,6 @@ Promise.all([
             .attr("transform", "translate(35,450)")
             .call(d3.axisBottom(x))
 
-        var myColor = d3.scaleLinear()
-            .range(["#e5ebee", "#003f5c"])
-            .domain([0, d3.max(dataHeat, d => +d.value)])
-        // Build X scales and axis:
         var y = d3.scaleBand()
             .range([20, height - 60])
             .domain(profs)
@@ -550,6 +546,55 @@ Promise.all([
             .attr("class", "axis")
             .attr("transform", "translate(62,0)")
             .call(d3.axisLeft(y));
+
+        svg.append("g")
+            .attr('id', 'heatMapContent')
+
+        var defs = svg.append("defs");
+
+        var gradient = defs.append("linearGradient")
+            .attr("id", "heatmapGradient")
+            .attr("x1", "0%")
+            .attr("x2", "0%")
+            .attr("y1", "0%")
+            .attr("y2", "100%");
+
+
+        gradient.append("stop")
+            .attr('class', 'start')
+            .attr("offset", "0%")
+            .attr("stop-color", "#123524")
+            .attr("stop-opacity", 1);
+
+        gradient.append("stop")
+            .attr('class', 'end')
+            .attr("offset", "100%")
+            .attr("stop-color", "#E7EAE9")
+            .attr("stop-opacity", 1);
+
+        var scale = svg.append("g")
+            .attr('id', 'colorscale')
+            .attr('transform', 'translate(310,350)')
+            .attr('font-size', 10)
+
+        scale
+            .append('rect')
+            .attr('width', 20).attr('height', 100)
+            .attr('fill', 'url(#heatmapGradient)')
+
+        scale
+            .append('text')
+            .attr('id', 'maxVal')
+            .style("text-anchor", "middle")
+            .text(100)
+            .attr('x', 10).attr('y', -3)
+
+        scale
+            .append('text')
+            .attr('id', 'minVal')
+            .style("text-anchor", "middle")
+            .text(0)
+            .attr('x', 10).attr('y', 110)
     }
 
     function buildBoxplot(data, variable) {
@@ -743,8 +788,11 @@ Promise.all([
 
 
         var myColor = d3.scaleLinear()
-            .range(["#e5ebee", "#003f5c"])
+            .range(["#E7EAE9", "#123524"])
             .domain([0, d3.max(dataHeat, d => +d.value)])
+
+        d3.select('text#maxVal')
+            .text(d3.max(dataHeat, d => +d.value))
 
         // Build X scales and axis:
         var y = d3.scaleBand()
@@ -755,7 +803,8 @@ Promise.all([
         d3.select("#yAxisHeat")
             .call(d3.axisLeft(y));
 
-        svg.selectAll()
+        svg.select('#heatMapContent')
+            .selectAll('rect')
             .data(dataHeat, function (d) { return d.field + ':' + d.prof; })
             .enter()
             .append("rect")
@@ -782,7 +831,8 @@ Promise.all([
 
 
 
-        svg.selectAll('rect')
+        svg.select('#heatMapContent')
+            .selectAll('rect')
             .data(dataHeat.slice().sort(function (a, b) {
                 return d3.descending(a.value, b.value)
             }))
@@ -798,7 +848,9 @@ Promise.all([
                 return ""
             })
 
-        svg.selectAll('rect')
+        svg.select('#heatMapContent')
+            .selectAll('rect')
+
             .data(dataHeat)
             .exit()
             .remove()
