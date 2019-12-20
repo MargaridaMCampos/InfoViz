@@ -430,6 +430,14 @@ Promise.all([
             .call(d3.axisLeft(yTimeScale))
             .attr('class','axis')
             .attr('transform','translate(30,0)')
+        
+                    // X Title
+        containerOvertime.append("text")
+            .attr('class','axisTitle')
+            .attr("text-anchor", "end")
+            .attr("x", width)
+            .attr("y", height-10 )
+            .text("Decade");
 
         containerOvertime
             .append("g")
@@ -532,8 +540,8 @@ Promise.all([
     }
 
     function buildBoxplot(data,variable) {
-        var width = 380
-        var height = 330
+        var width = 420
+        var height = 350
 
         var svg = d3.select("#boxplot")
             .append("svg")
@@ -545,12 +553,20 @@ Promise.all([
             svg.append("g")
             .attr("id", "xAxisBox")
             .attr("class", "axis")
-            .attr("transform", "translate(20,300)")
+            .attr("transform", "translate(70,300)")
+            
+            // X Title
+            svg.append("text")
+            .attr('class','axisTitle')
+            .attr("text-anchor", "end")
+            .attr("x", width/2+20)
+            .attr("y", height-15 )
+            .text("Age");
             svg
             .append("g")
             .attr("id", "yAxisBox")
             .attr("class", "axis")
-            .attr("transform", "translate(20,10)")
+            .attr("transform", "translate(70,10)")
 
 
     }
@@ -769,8 +785,8 @@ Promise.all([
     }
 
     function updateBoxplot(data,variable) {
-        var width = 380
-        var height = 330
+        var width = 420
+        var height = 350
 
 
         var svg = d3.select("#boxplotViz")
@@ -814,7 +830,7 @@ Promise.all([
 
         // Show the X scale
         var x = d3.scaleLinear()
-            .range([0, width - 40])
+            .range([0, width - 80])
             .domain([0, 120])
 
 
@@ -823,7 +839,7 @@ Promise.all([
 
         var y = d3.scaleBand()
             .domain(uniqueVariable)
-            .range([height-40, 0])
+            .range([height-60, 0])
 
 
         d3.select("#yAxisBox")
@@ -849,8 +865,8 @@ Promise.all([
             .enter()
             .append('line')
             .attr('class', 'vertLine')
-            .attr("x1", function (d) { return (x(d.value.min)) })
-            .attr("x2", function (d) { return (x(d.value.max)) })
+            .attr("x1", function (d) { return (x(d.value.min))+15 })
+            .attr("x2", function (d) { return (x(d.value.max))+15 })
             .attr("y1", function (d) { return (y(d.key)+heightDiff) })
             .attr("y2", function (d) { return (y(d.key)+heightDiff) })
             .attr("stroke", "black")
@@ -862,7 +878,7 @@ Promise.all([
             .data(stats)
             .enter()
             .append('rect')
-            .attr("x", function (d) { return (x(d.value.q1)) })
+            .attr("x", function (d) { return (x(d.value.q1))+15 })
             .attr("y", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
@@ -875,8 +891,8 @@ Promise.all([
             .enter()
             .append('line')
             .attr('class', 'medianLine')
-            .attr("x1", function (d) { return (x(d.value.median)) })
-            .attr("x2", function (d) { return (x(d.value.median)) })
+            .attr("x1", function (d) { return (x(d.value.median))+65 })
+            .attr("x2", function (d) { return (x(d.value.median))+65 })
             .attr("y1", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
             .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
             .attr("stroke", "black")
@@ -887,8 +903,8 @@ Promise.all([
             .data(stats)
             .transition()
             .duration(500)
-            .attr("x1", function (d) { return (x(d.value.min)) })
-            .attr("x2", function (d) { return (x(d.value.max)) })
+            .attr("x1", function (d) { return (x(d.value.min))+65 })
+            .attr("x2", function (d) { return (x(d.value.max))+65 })
             .attr("y1", function (d) { return (y(d.key)+heightDiff) })
             .attr("y2", function (d) { return (y(d.key)+heightDiff) })
             .attr("stroke", "black")
@@ -899,7 +915,7 @@ Promise.all([
             .data(stats)
             .transition()
             .duration(500)
-            .attr("x", function (d) { return (x(d.value.q1)) })
+            .attr("x", function (d) { return (x(d.value.q1))+65 })
             .attr("y", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
             .attr("width", function (d) { return (x(d.value.q3) - x(d.value.q1)) })
             .attr("height", boxWidth)
@@ -930,8 +946,8 @@ Promise.all([
             .data(stats)
             .transition()
             .duration(500)
-            .attr("x1", function (d) { return (x(d.value.median)) })
-            .attr("x2", function (d) { return (x(d.value.median)) })
+            .attr("x1", function (d) { return (x(d.value.median)+65) })
+            .attr("x2", function (d) { return (x(d.value.median)+65) })
             .attr("y1", function (d) { return (y(d.key)+heightDiff - boxWidth / 2) })
             .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
             .attr("stroke", "black")

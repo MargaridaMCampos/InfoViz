@@ -26,6 +26,15 @@ div {
     overflow:auto;
 }
 
+text.axisTitle{
+    fill:gray;
+}
+
+.axisTitle {
+    color:gray;
+    font-size: 12px;
+}
+
 .axis line{
     stroke:gray;
 
@@ -134,8 +143,8 @@ svg {
     position: absolute;
     top:200px;
     right: 5px;
-    width:400px;
-    height: 350px;
+    width:440px;
+    height: 370px;
 }
 
 #graph {
