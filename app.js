@@ -39,6 +39,19 @@ Promise.all([
         buildMap(filterData(dataComplete, filters), geoJSON);
         buildBoxplot(filterData(dataComplete, filters), 'won_award');
         updateAll();
+        $('#resetButton').click(function () {
+            filters = baseFilters(dataComplete);
+            $('#selectCountries').val('')
+            $('#selectCountries').trigger('change')
+            $('#selectProfessions').val([])
+            $('#selectProfessions').trigger('change')
+            $('#selectFields').val([])
+            $('#selectFields').trigger('change')
+            buildSelects(filters)
+            $('#selectMath').val('686');
+            $('#selectMath').trigger('change')
+            updateAll();
+        })
     });
 
     var filters = baseFilters(dataComplete)
@@ -48,12 +61,11 @@ Promise.all([
         listMath(graph_data.nodes)
         listCountries(filters)
         listProfessions(filters)
+        listFields(filters)
     }
 
     function listCountries(filters) {
-
         var list = [...new Set(filters.countries)].sort()
-
         options = d3.select("#selectCountries")
             .selectAll("option")
             .data(list)
@@ -64,10 +76,20 @@ Promise.all([
     }
 
     function listProfessions(filters) {
-
         var list = [...new Set(filters.professions)].sort()
-
         options = d3.select("#selectProfessions")
+            .selectAll("option")
+            .data(list)
+            .enter()
+            .append('option')
+            .text(d => d)
+            .attr('value', d => d)
+    }
+
+
+    function listFields(filters) {
+        var list = [...new Set(filters.fields)].sort()
+        options = d3.select("#selectFields")
             .selectAll("option")
             .data(list)
             .enter()
@@ -111,6 +133,17 @@ Promise.all([
         })
         .on("select2:unselect", function (e) {
             filters.professions = $("#selectProfessions").select2('data').map(d => d.id)
+            updateAll()
+        })
+
+    $("#selectFields")
+        .select2()
+        .on("select2:select", function (e) {
+            filters.fields = $("#selectFields").select2('data').map(d => d.id)
+            updateAll()
+        })
+        .on("select2:unselect", function (e) {
+            filters.fields = $("#selectFields").select2('data').map(d => d.id)
             updateAll()
         })
 
@@ -180,7 +213,8 @@ Promise.all([
 
             res = (bycountry || countries.includes(d.country) || countries.length == 0) &
                 +d.birth <= maxDecade & +d.birth >= minDecade &
-                fields.includes(d.field) & (professions.includes(d.profession) || professions.length == 0)// &
+                (fields.includes(d.field) || fields.length == 0) &
+                (professions.includes(d.profession) || professions.length == 0)// &
             wonAward.includes(d.won_award)
             return res
         })
@@ -780,7 +814,9 @@ Promise.all([
                 $('#selectProfessions').trigger('change');
                 $('#selectProfessions').trigger('select2:select');
             } else {
-                filters.fields = this.textContent;
+                $("#selectFields").val(this.textContent)
+                $('#selectFields').trigger('change');
+                $('#selectFields').trigger('select2:select');
             }
             updateAll()
         }
