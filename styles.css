@@ -1,5 +1,4 @@
-body {font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
-    sans-serif;
+body {font-family: Calibri, 'Trebuchet MS', sans-serif;
     overflow: hidden;
     background-color: rgba(248, 248, 248, 0.9);
 }
@@ -89,46 +88,29 @@ svg {
     left:330px;
     width:450px;
     height: 250px;
-
-}
-#countries {
-    position: absolute;
-    top:20px;
-    left:330px;
-    width:150px;
-
 }
 
-#mathematicians {
+/* ------- Filters ------- */
+
+#filters{
     position: absolute;
-    top:20px;
-    left:670px;
-    width:150px;
-    height: 30px;
-    padding-left: 0px;
-    padding-right: 0px;
+    top: 20px;
+    left: 330px;
 }
 
-#boxplotChoice {
-    position: absolute;
-    top:20px;
-    left:820px;
+.filterDropdown {
+    display: inline-block;
     width:150px;
-    height: 30px;
-
+    padding: 3px;
 }
 
 #resetButton {
-    position: absolute;
-    top:30px;
-    left:500px;
     width:150px;
     height: 30px;
     background-color: white;
     border: 1px solid #aaa;
     border-radius: 4px;
     cursor: pointer;
-
 }
 
 #heatmap {

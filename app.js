@@ -21,7 +21,7 @@ Promise.all([
 
     $(document).ready(function () {
         $('.js-example-placeholder-multiple').select2();
-        $(".js-example-placeholder-multiple").select2({
+        $("#selectCountries").select2({
             placeholder: "All Countries"
         });
     });
@@ -30,39 +30,26 @@ Promise.all([
     });
 
     $(document).ready(function () {
-        listMath(graph_data.nodes)
-
         $('.js-example-basic-single').select2({ theme: "classic" })
+        buildSelects(filters);
+        $('#selectMath').val('1632');
         buildGraph(graph_data);
         buildOverTime(filterData(dataComplete, filters), geoJSON);
         buildHeatMap(filterData(dataComplete, filters));
-        updateHeatMap(filterData(dataComplete, filters));
         buildMap(filterData(dataComplete, filters), geoJSON);
-        updateMap(filterMapData(dataComplete, filters), geoJSON);
-    });
-
-    $(document).ready(function () {
-
-       // $('#resetButton').on('click',console.log('ahah'))
-
+        buildBoxplot(filterData(dataComplete, filters),'won_award');
+        updateAll();
     });
 
     var filters = baseFilters(dataComplete)
     var scales = {}
 
-
-    listCountries(filters)
-    buildBoxplot(filterData(dataComplete, filters),'won_award');
-    updateBoxplot(filterData(dataComplete, filters),'won_award');
-
-    function reset(){
-        filters = baseFilters(dataComplete)
+    function buildSelects(filters) {
+        listMath(graph_data.nodes)
         listCountries(filters)
-        updateMap(filterMapData(dataComplete, filters), geoJSON);
-        updateHeatMap(filterData(dataComplete, filters));
-        updateBoxplot(filterData(dataComplete, filters),'won_award');
-
+        listProfessions(filters)
     }
+
     function listCountries(filters) {
 
         var list = [...new Set(filters.countries)].sort()
@@ -76,39 +63,55 @@ Promise.all([
             .attr('value', d => d)
     }
 
+    function listProfessions(filters) {
 
+        var list = [...new Set(filters.professions)].sort()
 
+        options = d3.select("#selectProfessions")
+            .selectAll("option")
+            .data(list)
+            .enter()
+            .append('option')
+            .text(d => d)
+            .attr('value', d => d)
+    }
+
+    function updateAll () {
+        updateHeatMap(filterData(dataComplete, filters))
+        updateBoxplot(filterData(dataComplete, filters),'won_award')
+        updateMap(filterMapData(dataComplete, filters), geoJSON);
+        updateOverTime(filterData(dataComplete, filters))
+        buildSelects(filterMapData(dataComplete, filters));
+        updateGraph(graph_data)
+    }
 
     $("#selectCountries")
         .select2()
         .on("select2:select", function (e) {
-
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
-            updateHeatMap(filterData(dataComplete, filters))
-            updateBoxplot(filterData(dataComplete, filters),'won_award')
-            updateMap(filterMapData(dataComplete, filters), geoJSON);
-            listMath(graph_data.nodes)
-
+            updateAll()
         })
 
         .on("select2:unselect", function (e) {
-
             filters.countries = $("#selectCountries").select2('data').map(d => d.id)
-            updateHeatMap(filterData(dataComplete, filters))
-            updateBoxplot(filterData(dataComplete, filters),'won_award')
-            updateMap(filterMapData(dataComplete, filters), geoJSON);
-            listMath(graph_data.nodes)
-
+            updateAll();
         })
 
     $("#selectMath")
         .select2()
         .on("select2:select", function (e) {
+            updateAll()
+        })
 
-            updateGraph(graph_data)
-            updateOverTime(filterData(dataComplete, filters))
-            updateHeatMap(filterData(dataComplete, filters))
-
+        $("#selectProfessions")
+        .select2()
+        .on("select2:select", function (e) {
+            filters.professions= $("#selectProfessions").select2('data').map(d => d.id)
+            updateAll()
+        })
+        .on("select2:unselect", function (e) {
+            filters.professions= $("#selectProfessions").select2('data').map(d => d.id)
+            updateAll()
         })
 
     $("#selectBoxplot")
@@ -153,7 +156,6 @@ Promise.all([
             .text(d => d.name)
             .attr('value',d=>d.id)
             .property("selected", d => d.name == 'Blaise Pascal')
-
     }
 
     function baseFilters(data) {
@@ -172,14 +174,14 @@ Promise.all([
         maxDecade = filters.dates[1];
         countries = filters.countries;
         fields = filters.fields;
-        professions = filters.professions;
+        professions = filters.professions
         wonAward = filters.wonAward;
 
         filtered = data.filter(function (d) {
 
             res = (bycountry || countries.includes(d.country) || countries.length == 0) &
                 +d.birth <= maxDecade & +d.birth >= minDecade &
-                fields.includes(d.field) & professions.includes(d.profession)// &
+                fields.includes(d.field) & (professions.includes(d.profession) || professions.length == 0)// &
             wonAward.includes(d.won_award)
             return res
         })
@@ -290,7 +292,6 @@ Promise.all([
             .range(["white", "#003f5c"])
 
         var countries = $("#selectCountries").select2('data').map(d => d.id)
-        console.log(countries)
 
         d3.select("#mapViz")
             .selectAll("path")
@@ -430,7 +431,7 @@ Promise.all([
             .call(d3.axisLeft(yTimeScale))
             .attr('class','axis')
             .attr('transform','translate(30,0)')
-        
+
                     // X Title
         containerOvertime.append("text")
             .attr('class','axisTitle')
@@ -516,27 +517,6 @@ Promise.all([
             .attr("class", "axis")
             .attr("transform", "translate(62,0)")
             .call(d3.axisLeft(y));
-
-        d3.selectAll(".tick text").on("click", axisClick);
-
-        function axisClick(){
-
-            var x = this.getAttribute("x")
-
-            if(x == -9){
-                 filters.professions = this.textContent;
-            }else {
-                 filters.fields = this.textContent;
-            }
-
-        updateBoxplot(filterData(data,filters),'won_award')
-        updateMap(filterData(data,filters),geoJSON)
-        buildLine(filterData(data,filters),this.textContent)
-        listMath(graph_data.nodes)
-
-
-        }
-
     }
 
     function buildBoxplot(data,variable) {
@@ -554,7 +534,7 @@ Promise.all([
             .attr("id", "xAxisBox")
             .attr("class", "axis")
             .attr("transform", "translate(70,300)")
-            
+
             // X Title
             svg.append("text")
             .attr('class','axisTitle')
@@ -779,6 +759,22 @@ Promise.all([
             .data(dataHeat)
             .exit()
             .remove()
+
+        d3.selectAll(".tick text").on("click", axisClick);
+
+            function axisClick(){
+
+                var x = this.getAttribute("x")
+
+                if(x == -9){
+                    $("#selectProfessions").val(this.textContent)
+                    $('#selectProfessions').trigger('change');
+                    $('#selectProfessions').trigger('select2:select');
+                }else {
+                     filters.fields = this.textContent;
+                }
+                updateAll()
+            }
 
 
 

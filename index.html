@@ -7,44 +7,57 @@
         <script src="lodash.js"></script>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="d3.js"></script>
-        <script src = "app.js"></script>
+        <script src="app.js"></script>
 
 </head>
 
 <body>
-        <div id = "map">
-            <h2>Mathematicians around the world</h2>
-            <!-- <svg id="map"></svg> -->
+        <div id="map">
+                <h2>Mathematicians around the world</h2>
+                <!-- <svg id="map"></svg> -->
         </div>
         <div id="overtime">
-            <h2>Evolution of Births</h2>
-            <!-- <svg id="overtime"></svg> -->
+                <h2>Evolution of Births</h2>
+                <!-- <svg id="overtime"></svg> -->
         </div>
-        <div id = "heatmap">
+        <div id="heatmap">
                 <h2>Compare Field and Profession</h2>
         </div>
-        <div id = "boxplot">
+        <div id="boxplot">
                 <h2>Age Distribution</h2>
         </div>
-        <div id = "graph">
+        <div id="graph">
                 <h2>Advisors Graph</h2>
         </div>
-        <div id = "countries">
-                <select id = "selectCountries" style="width: 100%" class="js-example-placeholder-multiple js-states form-control" multiple="multiple">
-                </select>
+        <div id="filters">
+                <div class="filterDropdown" id="countries">
+                        <select id="selectCountries" style="width: 100%"
+                                class="js-example-placeholder-multiple js-states form-control" multiple="multiple">
+                        </select>
+                </div>
+                <div class="filterDropdown" id="mathematicians">
+                        <select id="selectMath" style="width: 100%" class="js-example-basic-single">
+                        </select>
+                </div>
+                <div class="filterDropdown" id="professions">
+                        <select id="selectProfessions" style="width: 100%"
+                                class="js-example-placeholder-multiple js-states form-control" multiple="multiple">
+                        </select>
+                </div>
+                <div class="filterDropdown" id="boxplotChoice">
+                        <select id="selectBoxplot" style="width: 100%" class="js-example-basic-single">
+                                <option value="won_award">Award Receival</option>
+                                <option value="field">Field of Study</option>
+                                <option value="profession">Profession</option>
+                        </select>
+                </div>
+                <div>
+                <input id="resetButton" type="button" value="Reset">
         </div>
-        <div id = "mathematicians">
-                <select id = "selectMath" style="width: 100%" class="js-example-basic-single">
-                </select>
-        </div>
-        <input id="resetButton" type="button" value="Reset" >
+
         </input>
-        <div id = "boxplotChoice">
-                <select id = "selectBoxplot" style="width: 100%" class="js-example-basic-single">
-                        <option value = "won_award">Award Receival</option>
-                        <option value = "field">Field of Study</option>
-                        <option value = "profession">Profession</option>
-                </select>
+
         </div>
 </body>
+
 </html>
