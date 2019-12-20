@@ -22,7 +22,13 @@ Promise.all([
     $(document).ready(function () {
         $('.js-example-placeholder-multiple').select2();
         $("#selectCountries").select2({
-            placeholder: "All Countries"
+            placeholder: "Countries"
+        });
+        $("#selectProfessions").select2({
+            placeholder: "Professions"
+        });
+        $("#selectFields").select2({
+            placeholder: "Fields"
         });
     });
     $(".js-example-theme-multiple").select2({
@@ -230,8 +236,8 @@ Promise.all([
     }
 
     function buildMap(data, geoJSON) {
-        let widthMap = 450;
-        let heightMap = 220;
+        let widthMap = 470;
+        let heightMap = 240;
 
         let container = d3.select("#map")
             .append("svg")
@@ -385,7 +391,7 @@ Promise.all([
             })
             .sort((a, b) => d3.ascending(a.decade, b.decade));
 
-        let widthOvertime = 450;
+        let widthOvertime = 470;
         let heightOvertime = 140;
 
         var containerOvertime = d3.select('#overtime')
