@@ -635,7 +635,7 @@ Promise.all([
 
         scale
             .append('text')
-            .attr('id', 'maxVal')
+            .attr('id', 'heatMaxVal')
             .style("text-anchor", "middle")
             .text(100)
             .attr('x', 10).attr('y', -3)
@@ -842,7 +842,7 @@ Promise.all([
             .range(["#E7EAE9", "#123524"])
             .domain([0, d3.max(dataHeat, d => +d.value)])
 
-        d3.select('text#maxVal')
+        d3.select('text#heatMaxVal')
             .text(d3.max(dataHeat, d => +d.value))
 
         // Build X scales and axis:
