@@ -39,6 +39,8 @@ Promise.all([
         updateHeatMap(filterData(dataComplete, filters));
         buildMap(filterData(dataComplete, filters), geoJSON);
         updateMap(filterMapData(dataComplete, filters), geoJSON);
+        updateBoxplot(filterData(dataComplete, filters),'won_award');
+
     });
 
     $(document).ready(function () {
@@ -53,7 +55,6 @@ Promise.all([
 
     listCountries(filters)
     buildBoxplot(filterData(dataComplete, filters),'won_award');
-    updateBoxplot(filterData(dataComplete, filters),'won_award');
 
     function reset(){
         filters = baseFilters(dataComplete)
@@ -108,6 +109,7 @@ Promise.all([
             updateGraph(graph_data)
             updateOverTime(filterData(dataComplete, filters))
             updateHeatMap(filterData(dataComplete, filters))
+            updateBoxplot(dataComplete,$('#selectBoxplot').select2('data')[0].id)
 
         })
 
@@ -336,7 +338,7 @@ Promise.all([
             .attr("cx", xTimeScale(year) + 30)
             .attr("cy", 100)
             .attr("r", 5)
-            .style('fill', '#153F5A')
+            .style('fill', '#f95d6a')
 
     }
 
@@ -528,7 +530,6 @@ Promise.all([
             }else {
                  filters.fields = this.textContent;
             }
-
         updateBoxplot(filterData(data,filters),'won_award')
         updateMap(filterData(data,filters),geoJSON)
         buildLine(filterData(data,filters),this.textContent)
@@ -567,6 +568,16 @@ Promise.all([
             .attr("id", "yAxisBox")
             .attr("class", "axis")
             .attr("transform", "translate(70,10)")
+
+            svg        
+            .append('circle')
+            .attr('id','circleBox')
+            .attr('r',4)
+            .attr('fill','#f95d6a')
+            .attr('cx',d=>0)
+            .attr('cy',d=>0)
+            
+    
 
 
     }
@@ -771,7 +782,7 @@ Promise.all([
             .attr("height", y.bandwidth())
             .style("fill", function (d) { return myColor(+d.value) })
             .style("stroke", d => {
-                if (guy_fields.has(d.field) && guy_professions.has(d.prof)) return "black"
+                if (guy_fields.has(d.field) && guy_professions.has(d.prof)) return "#f95d6a"
                 return ""
             })
 
@@ -785,10 +796,17 @@ Promise.all([
     }
 
     function updateBoxplot(data,variable) {
+
         var width = 420
         var height = 350
 
+console.log($("#selectMath").select2('data')[0].text)
+        var guy = $("#selectMath").select2('data')[0].text
 
+        var guyAge = +data.filter(d=>d.name == guy)[0].age
+        var guyVariable = data.filter(d=>d.name == guy)[0][variable]
+
+        console.log(guyVariable)
         var svg = d3.select("#boxplotViz")
 
         var ages = data.map(function(d){
@@ -897,6 +915,16 @@ Promise.all([
             .attr("y2", function (d) { return (y(d.key)+heightDiff + boxWidth / 2) })
             .attr("stroke", "black")
             .style("width", 80)
+
+        svg
+        .select("#circleBox")
+        .attr('r',4)
+        .attr('fill','#f95d6a')
+        .attr('cx',d=>x(guyAge)+65)
+        .attr('cy',d=>y(guyVariable)+heightDiff)
+        .attr('stroke','white')
+        .raise()
+
 
 
         svg.selectAll("line.vertLine")
