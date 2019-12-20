@@ -19,8 +19,7 @@ Add code to show a black border of 1px around all SVGs elements in the page
 */
 
 div {
-    padding: 10px;
-
+    /* padding: 10px; */
     overflow:auto;
 }
 
@@ -56,10 +55,10 @@ text.axisTitle{
 }
 
 h2 {
-    position: absolute;
+    /* position: absolute; */
     top:0;
     left:0;
-    margin: 0;
+    margin-bottom: 1;
 }
 
 h3 {
@@ -80,22 +79,19 @@ svg {
 
 
 
-
-
 #overtime {
     position: absolute;
     top:410px;
     left: 370px;
-    width:470px;
-    height: 160px;
-
+    width:480px;
+    height: 195px;
 }
 #map {
     position: absolute;
     top:130px;
     left:370px;
-    width:470px;
-    height: 270px;
+    width:480px;
+    height: 295px;
 }
 
 /* ------- Filters ------- */
@@ -103,13 +99,12 @@ svg {
 #filters{
     position: absolute;
     bottom: 20px;
-    left: 330px;
 }
 
 .filterDropdown {
     display: inline-block;
     width:150px;
-    padding: 3px;
+    margin-right: 10px;
 }
 
 #resetButton {
@@ -126,7 +121,7 @@ svg {
     position: absolute;
     top:20px;
     left:10px;
-    height: 550px;
+    height: 590px;
     width: 360px;
 }
 
@@ -135,7 +130,7 @@ svg {
     top:200px;
     right: 5px;
     width:440px;
-    height: 370px;
+    height: 410px;
 }
 
 #graph {
@@ -143,7 +138,7 @@ svg {
     top:20px;
     right: 5px;
     width: 250px;
-    height: 180px;
+    height: 200px;
 }
 
 

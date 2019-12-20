@@ -244,7 +244,6 @@ Promise.all([
             .attr("id", "mapViz")
             .attr("width", widthMap)
             .attr("height", heightMap)
-            .attr("transform", "translate(0,20)")
 
         // Define the div for the tooltip
         var div = d3.select("body").append("div")
@@ -446,7 +445,6 @@ Promise.all([
             .append("svg")
             .attr("width", widthOvertime)
             .attr("height", heightOvertime)
-            .attr("transform", "translate(0,20)")
             .attr('id', "overtimeViz")
 
         var div = d3.select("body").append("div")
@@ -575,7 +573,6 @@ Promise.all([
             .append("svg")
             .attr("width", width)
             .attr("height", height)
-            .attr("transform", "translate(0,20)")
             .attr("id", "heatMapViz")
 
         // Build X scales and axis:
@@ -660,7 +657,6 @@ Promise.all([
             .attr('id', 'boxplotViz')
             .attr("width", width)
             .attr("height", height)
-            .attr("transform", "translate(0,20)")
 
         svg.append("g")
             .attr("id", "xAxisBox")
@@ -706,10 +702,7 @@ Promise.all([
             .attr('id', 'graphViz')
             .attr("width", width)
             .attr("height", height)
-            .attr("transform", "translate(0,20)")
             .append("g")
-        //.attr("transform",
-        //  "translate(50,50)");
 
         updateGraph(graph_data)
     }
